@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Framework.UtilPackage
+namespace SznFramework.UtilPackage
 {
     public sealed class DeviceInfoTools
     {
