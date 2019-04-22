@@ -127,7 +127,7 @@ namespace GoogleMobileAds.iOS
             Externs.GADUSetRewardBasedVideoAdUserId(this.RewardBasedVideoAdPtr, userId);
         }
 
-        public bool IsLoaded()
+        public bool isLoaded()
         {
             return Externs.GADURewardBasedVideoAdReady(this.RewardBasedVideoAdPtr);
         }

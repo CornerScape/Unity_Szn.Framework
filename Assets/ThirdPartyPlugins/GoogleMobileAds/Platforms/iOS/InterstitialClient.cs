@@ -95,7 +95,7 @@ namespace GoogleMobileAds.iOS
         }
 
         // Checks if interstitial has loaded.
-        public bool IsLoaded()
+        public bool isLoaded()
         {
             return Externs.GADUInterstitialReady(this.InterstitialPtr);
         }

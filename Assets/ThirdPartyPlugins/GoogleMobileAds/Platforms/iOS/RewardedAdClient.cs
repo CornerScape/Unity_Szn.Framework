@@ -111,7 +111,7 @@ namespace GoogleMobileAds.iOS
             Externs.GADUShowRewardedAd(this.RewardedAdPtr);
         }
 
-        public bool IsLoaded()
+        public bool isLoaded()
         {
             return Externs.GADURewardedAdReady(this.RewardedAdPtr);
         }

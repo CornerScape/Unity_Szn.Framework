@@ -1,14 +1,17 @@
 ﻿using SznFramework.AdMob;
-using SznFramework.UtilPackage;
 using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    private bool bannerEnable;
+    private bool interstitialEnable;
+    private bool rewardEnable;
+
     void Start()
     {
         AdMobManager.Init();
     }
-
+    
     // Use this for initialization
     void OnGUI()
     {
@@ -16,14 +19,17 @@ public class Test : MonoBehaviour
         GUI.skin.button.fontSize = 32;
         if (GUILayout.Button("Load Banner Ad"))
         {
-            AdMobManager.BannerAd.Init();
+            bannerEnable = false;
+            AdMobManager.BannerAd.Init(InResult => { bannerEnable = InResult; });
         }
 
         if (GUILayout.Button("Refresh Banner Ad"))
         {
-            AdMobManager.BannerAd.Refresh();
+            bannerEnable = false;
+            AdMobManager.BannerAd.Refresh(InResult => { bannerEnable = InResult; });
         }
 
+        GUI.enabled = bannerEnable;
         if (GUILayout.Button("Show Banner Ad"))
         {
             AdMobManager.BannerAd.Show();
@@ -36,23 +42,73 @@ public class Test : MonoBehaviour
 
         if (GUILayout.Button("Close Banner Ad"))
         {
+            bannerEnable = false;
             AdMobManager.BannerAd.Close();
         }
+        GUI.enabled = true;
 
-        if (GUILayout.Button("Trigger"))
+
+        if (GUILayout.Button("Init Interstitial Ad"))
         {
-            TimerTools.Instance.RegisterTrigger(6,
-                () =>
+            interstitialEnable = false;
+            AdMobManager.InterstitialAd.Init(InResult =>
+            {
+                interstitialEnable = InResult;
+            });
+        }
+
+        GUI.enabled = interstitialEnable;
+        if (GUILayout.Button("Show Interstitial Ad"))
+        {
+            interstitialEnable = false;
+            if (AdMobManager.InterstitialAd.IsReady)
+            {
+                AdMobManager.InterstitialAd.Show(() =>
+                    AdMobManager.InterstitialAd.Init(InResult =>
+                    {
+                        interstitialEnable = InResult;
+                    }));
+            }
+        }
+        GUI.enabled = true;
+
+        if (GUILayout.Button("Init Reward Ad"))
+        {
+            AdMobManager.RewardAd.Init(InResult =>
+            {
+                rewardEnable = InResult;
+            });
+        }
+
+        GUI.enabled = rewardEnable;
+        if (GUILayout.Button("Show Reward Ad"))
+        {
+            rewardEnable = false;
+            if (AdMobManager.RewardAd.IsReady)
+            {
+                AdMobManager.RewardAd.Show(InShowResult =>
                 {
-                    Debug.LogError("Finished Trigger");
-                },
-                this);
+                    Debug.LogError("Show Reward Result = " + InShowResult);
+                    AdMobManager.RewardAd.Init(InInitResult => { rewardEnable = InInitResult; });
+                });
+            }
         }
+        GUI.enabled = true;
 
-        if (GUILayout.Button("Destroy"))
-        {
-            DestroyImmediate(this);
-        }
+        //if (GUILayout.Button("Trigger"))
+        //{
+        //    TimerTools.Instance.RegisterTrigger(6,
+        //        () =>
+        //        {
+        //            Debug.LogError("Finished Trigger");
+        //        },
+        //        this);
+        //}
+
+        //if (GUILayout.Button("Destroy"))
+        //{
+        //    DestroyImmediate(this);
+        //}
         GUILayout.EndArea();
     }
 }

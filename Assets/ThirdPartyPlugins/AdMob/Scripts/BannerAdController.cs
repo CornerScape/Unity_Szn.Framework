@@ -2,193 +2,213 @@
 using System;
 using UnityEngine;
 
-public class BannerAdController
+namespace SznFramework.AdMob
 {
-    private readonly string bannerAdId;
-    private BannerView bannerView;
-    private readonly AdSize adSize;
-    private readonly AdPosition adPosition;
-
-    private bool isLoading;
-    private bool isClosed;
-    public bool IsLoaded { get; private set; }
-    public bool IsPlaying { get; private set; }
-    private Action<bool> initCallback;
-
-    public BannerAdController(string InBannerAdId, AdSize InBannerSize, AdPosition InAdPosition)
+    public class BannerAdController
     {
-        isLoading = false;
-        IsLoaded = false;
-        IsPlaying = false;
-        isClosed = false;
+        private readonly string bannerAdId;
+        private BannerView bannerView;
+        private readonly AdSize adSize;
+        private readonly AdPosition adPosition;
 
-        bannerAdId = InBannerAdId;
-        adSize = InBannerSize;
-        adPosition = InAdPosition;
-    }
+        private bool isLoading;
+        private bool isClosed;
+        private bool isLoaded;
+        private bool isPlaying;
 
-    public void Init(Action<bool> InCallback = null)
-    {
-        if (isLoading)
+        public bool IsLoaded
         {
-            Debug.LogError("Banner Ad is loading, Please try again later.");
-        }
-        else if (IsLoaded)
-        {
-            Debug.LogError("Banner Ad already loaded, If you want to refresh, please use the 'Refresh' function.");
-        }
-        else
-        {
-            initCallback = InCallback;
-            RequestBanner();
-        }
-    }
-
-    public void Refresh(Action<bool> InCallback = null)
-    {
-        if (isLoading)
-        {
-            Debug.LogError("Banner Ad is loading, Please try again later.");
-        }
-        else
-        {
-            initCallback = InCallback;
-
-            if (bannerView != null)
+            get
             {
-                bannerView.Destroy();
-                bannerView = null;
+                return bannerView != null && isLoaded;
             }
-            RequestBanner();
         }
-    }
+        public bool IsPlaying
+        {
+            get
+            {
 
-    public void RequestBanner()
-    {
-        isLoading = true;
-        IsLoaded = false;
-        isClosed = false;
-        IsPlaying = false;
+                return bannerView != null && isPlaying;
+            }
+        }
 
-        // Create a 320x50 banner at the top of the screen.
-        bannerView = new BannerView(bannerAdId, adSize, adPosition);
+        private Action<bool> initCallback;
 
-        // Called when an ad request has successfully loaded.
-        bannerView.OnAdLoaded += HandleOnAdLoaded;
-        // Called when an ad request failed to load.
-        bannerView.OnAdFailedToLoad += HandleOnAdFailedToLoad;
-        // Called when an ad is clicked.
-        bannerView.OnAdOpening += HandleOnAdOpened;
-        // Called when the user returned from the app after an ad click.
-        bannerView.OnAdClosed += HandleOnAdClosed;
-        // Called when the ad click caused the user to leave the application.
-        bannerView.OnAdLeavingApplication += HandleOnAdLeavingApplication;
+        public BannerAdController(string InBannerAdId, AdSize InBannerSize, AdPosition InAdPosition)
+        {
+            isLoading = false;
+            isLoaded = false;
+            isPlaying = false;
+            isClosed = false;
 
-        // Create an empty ad request.
-        AdRequest request = new AdRequest.Builder().Build();
+            bannerAdId = InBannerAdId;
+            adSize = InBannerSize;
+            adPosition = InAdPosition;
+        }
 
-        // Load the banner with the request.
-        bannerView.LoadAd(request);
-    }
+        public void Init(Action<bool> InCallback = null)
+        {
+            if (isLoading)
+            {
+                Debug.LogError("Banner Ad is loading, Please try again later.");
+            }
+            else if (isLoaded)
+            {
+                Debug.LogError("Banner Ad already loaded, If you want to refresh, please use the 'Refresh' function.");
+            }
+            else
+            {
+                initCallback = InCallback;
+                RequestBanner();
+            }
+        }
 
-    public void HandleOnAdLoaded(object InSender, EventArgs InArgs)
-    {
+        public void Refresh(Action<bool> InCallback = null)
+        {
+            if (isLoading)
+            {
+                Debug.LogError("Banner Ad is loading, Please try again later.");
+            }
+            else
+            {
+                initCallback = InCallback;
+
+                if (bannerView != null)
+                {
+                    bannerView.Destroy();
+                    bannerView = null;
+                }
+                RequestBanner();
+            }
+        }
+
+        public void RequestBanner()
+        {
+            isLoading = true;
+            isLoaded = false;
+            isClosed = false;
+            isPlaying = false;
+
+            // Create a 320x50 banner at the top of the screen.
+            bannerView = new BannerView(bannerAdId, adSize, adPosition);
+
+            // Called when an ad request has successfully loaded.
+            bannerView.OnAdLoaded += HandleOnAdLoaded;
+            // Called when an ad request failed to load.
+            bannerView.OnAdFailedToLoad += HandleOnAdFailedToLoad;
+            // Called when an ad is clicked.
+            bannerView.OnAdOpening += HandleOnAdOpened;
+            // Called when the user returned from the app after an ad click.
+            bannerView.OnAdClosed += HandleOnAdClosed;
+            // Called when the ad click caused the user to leave the application.
+            bannerView.OnAdLeavingApplication += HandleOnAdLeavingApplication;
+
+            // Create an empty ad request.
+            AdRequest request = new AdRequest.Builder().Build();
+
+            // Load the banner with the request.
+            bannerView.LoadAd(request);
+        }
+
+        public void HandleOnAdLoaded(object InSender, EventArgs InArgs)
+        {
 #if AD_DEBUG
         Debug.Log("[Banner Ad]    HandleAdLoaded event received");
 #endif
-        if (isClosed)
-        {
-            Close();
-            if (initCallback != null) initCallback.Invoke(false);
+            if (isClosed)
+            {
+                Close();
+                if (initCallback != null) initCallback.Invoke(false);
+            }
+            else
+            {
+                isLoading = false;
+                isLoaded = true;
+                bannerView.Hide();
+                if (initCallback != null) initCallback.Invoke(true);
+            }
         }
-        else
-        {
-            isLoading = false;
-            IsLoaded = true;
-            bannerView.Hide();
-            if (initCallback != null) initCallback.Invoke(true);
-        }
-    }
 
-    public void HandleOnAdFailedToLoad(object InSender, AdFailedToLoadEventArgs InArgs)
-    {
+        public void HandleOnAdFailedToLoad(object InSender, AdFailedToLoadEventArgs InArgs)
+        {
 #if AD_DEBUG
         Debug.Log("[Banner Ad]    HandleFailedToReceiveAd event received with message: "
                             + InArgs.Message);
 #endif
-        isLoading = false;
-        IsLoaded = false;
-        if (initCallback != null) initCallback.Invoke(false);
-    }
+            isLoading = false;
+            isLoaded = false;
+            if (initCallback != null) initCallback.Invoke(false);
+        }
 
-    public void HandleOnAdOpened(object InSender, EventArgs InArgs)
-    {
+        public void HandleOnAdOpened(object InSender, EventArgs InArgs)
+        {
 #if AD_DEBUG
         Debug.Log("[Banner Ad]    HandleAdOpened event received");
 #endif
-    }
+        }
 
-    public void HandleOnAdClosed(object InSender, EventArgs InArgs)
-    {
+        public void HandleOnAdClosed(object InSender, EventArgs InArgs)
+        {
 #if AD_DEBUG
         Debug.Log("[Banner Ad]    HandleAdClosed event received");
 #endif
-    }
+        }
 
-    public void HandleOnAdLeavingApplication(object InSender, EventArgs InArgs)
-    {
+        public void HandleOnAdLeavingApplication(object InSender, EventArgs InArgs)
+        {
 #if AD_DEBUG
         Debug.Log("[Banner Ad]    HandleAdLeavingApplication event received");
 #endif
-    }
+        }
 
-    public void Show()
-    {
-        if (IsLoaded)
+        public void Show()
         {
-            if (IsPlaying) Debug.LogError("Banner Ad is playing.");
+            if (isLoaded)
+            {
+                if (isPlaying) Debug.LogError("Banner Ad is playing.");
+                else
+                {
+                    isPlaying = true;
+                    bannerView.Show();
+                }
+            }
             else
             {
-                IsPlaying = true;
-                bannerView.Show();
+                Debug.LogError("Banner Ad Not loaded!");
             }
         }
-        else
-        {
-            Debug.LogError("Banner Ad Not loaded!");
-        }
-    }
 
-    public void Hide()
-    {
-        if (IsLoaded)
+        public void Hide()
         {
-            if (IsPlaying)
+            if (isLoaded)
             {
-                bannerView.Hide();
-                IsPlaying = false;
+                if (isPlaying)
+                {
+                    bannerView.Hide();
+                    isPlaying = false;
+                }
+                else Debug.LogError("Banner Ad is not playing.");
             }
-            else Debug.LogError("Banner Ad is not playing.");
+            else
+            {
+                Debug.LogError("Banner Ad Not loaded!");
+            }
         }
-        else
+
+        public void Close()
         {
-            Debug.LogError("Banner Ad Not loaded!");
-        }
-    }
+            if (isLoaded)
+            {
+                isClosed = true;
 
-    public void Close()
-    {
-        if (IsLoaded)
-        {
-            isClosed = true;
-            
-            if (IsPlaying) bannerView.Hide();
+                if (isPlaying) bannerView.Hide();
 
-            IsPlaying = false;
-            IsLoaded = false;
+                isPlaying = false;
+                isLoaded = false;
 
-            bannerView.Destroy();
-            bannerView = null;
+                bannerView.Destroy();
+                bannerView = null;
+            }
         }
     }
 }

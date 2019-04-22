@@ -1,108 +1,123 @@
-﻿using System;
-using GoogleMobileAds.Api;
-using SznFramework.AdMob;
+﻿using GoogleMobileAds.Api;
+using System;
 using UnityEngine;
 
-public class InterstitialAdController
+namespace SznFramework.AdMob
 {
-    public InterstitialAdController(string InId)
+    public class InterstitialAdController
     {
-        
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly string adId;
+        private InterstitialAd interstitialAd;
+        private Action<bool> initCallback;
+        private Action showCallback;
+
+        public bool IsReady
+        {
+            get { return null != interstitialAd && interstitialAd.IsLoaded(); }
+        }
+
+        public InterstitialAdController(string InId)
+        {
+            adId = InId;
+
+            interstitialAd = new InterstitialAd(adId);
+
+            // Called when an ad request has successfully loaded.
+            interstitialAd.OnAdLoaded += HandleOnAdLoaded;
+            // Called when an ad request failed to load.
+            interstitialAd.OnAdFailedToLoad += HandleOnAdFailedToLoad;
+            // Called when an ad is shown.
+            interstitialAd.OnAdOpening += HandleOnAdOpened;
+            // Called when the ad is closed.
+            interstitialAd.OnAdClosed += HandleOnAdClosed;
+            // Called when the ad click caused the user to leave the application.
+            interstitialAd.OnAdLeavingApplication += HandleOnAdLeavingApplication;
+        }
+
+        public void Init(Action<bool> InInitCallback = null)
+        {
+            initCallback = InInitCallback;
+
+            RequestInterstitial();
+        }
+
+        private void RequestInterstitial()
+        {
+#if UNITY_IOS
+         Initialize an InterstitialAd.
+        interstitialAd = new InterstitialAd(adId);
+
+         Called when an ad request has successfully loaded.
+        interstitialAd.OnAdLoaded += HandleOnAdLoaded;
+         Called when an ad request failed to load.
+        interstitialAd.OnAdFailedToLoad += HandleOnAdFailedToLoad;
+         Called when an ad is shown.
+        interstitialAd.OnAdOpening += HandleOnAdOpened;
+         Called when the ad is closed.
+        interstitialAd.OnAdClosed += HandleOnAdClosed;
+         Called when the ad click caused the user to leave the application.
+        interstitialAd.OnAdLeavingApplication += HandleOnAdLeavingApplication;
+#endif
+
+            // Create an empty ad request.
+            AdRequest request = new AdRequest.Builder().Build();
+            // Load the interstitial with the request.
+            interstitialAd.LoadAd(request);
+        }
+
+        public void HandleOnAdLoaded(object InSender, EventArgs InArgs)
+        {
+            Debug.Log("[Interstitial Ad]    HandleAdLoaded event received");
+            if (null != initCallback) initCallback.Invoke(true);
+        }
+
+        public void HandleOnAdFailedToLoad(object InSender, AdFailedToLoadEventArgs InArgs)
+        {
+            Debug.Log("[Interstitial Ad]    HandleFailedToReceiveAd event received with message: "
+                                + InArgs.Message);
+            if (null != initCallback) initCallback.Invoke(false);
+        }
+
+        public void HandleOnAdOpened(object InSender, EventArgs InArgs)
+        {
+            Debug.Log("[Interstitial Ad]    HandleAdOpened event received");
+        }
+
+        public void HandleOnAdClosed(object InSender, EventArgs InArgs)
+        {
+            Debug.Log("[Interstitial Ad]    HandleAdClosed event received");
+            if(null != showCallback) showCallback.Invoke();
+        }
+
+        public void HandleOnAdLeavingApplication(object InSender, EventArgs InArgs)
+        {
+            Debug.Log("[Interstitial Ad]    HandleAdLeavingApplication event received");
+        }
+
+        public void Show(Action InShowCallback)
+        {
+            showCallback = InShowCallback;
+            if (null == interstitialAd)
+            {
+                Debug.LogError("Interstitial Not Init.");
+                showCallback.Invoke();
+            }
+            else
+            {
+                if (interstitialAd.IsLoaded()) interstitialAd.Show();
+                else
+                {
+                    Debug.LogError("Interstitial Not Loaded.");
+                    showCallback.Invoke();
+                }
+            }
+        }
+
+        public void Destroy()
+        {
+            interstitialAd.Destroy();
+            interstitialAd = null;
+        }
     }
-//    private InterstitialAd interstitial;
-//    private int retryTime;
-
-//    public InterstitialAdController(string InBannerAdId)
-//    {
-//        retryTime = 0;
-//#if UNITY_ANDROID
-//        // Initialize an InterstitialAd.
-//        interstitial = new InterstitialAd(InBannerAdId);
-
-//        // Called when an ad request has successfully loaded.
-//        interstitial.OnAdLoaded += HandleOnAdLoaded;
-//        // Called when an ad request failed to load.
-//        interstitial.OnAdFailedToLoad += HandleOnAdFailedToLoad;
-//        // Called when an ad is shown.
-//        interstitial.OnAdOpening += HandleOnAdOpened;
-//        // Called when the ad is closed.
-//        interstitial.OnAdClosed += HandleOnAdClosed;
-//        // Called when the ad click caused the user to leave the application.
-//        interstitial.OnAdLeavingApplication += HandleOnAdLeavingApplication;
-//#endif
-
-//        RequestInterstitial();
-//    }
-
-//    private void RequestInterstitial()
-//    {
-//#if UNITY_IPHONE
-//        // Initialize an InterstitialAd.
-//        interstitial = new InterstitialAd(AdMobConfig.INTERSTITIAL_AD_ID);
-
-//        // Called when an ad request has successfully loaded.
-//        interstitial.OnAdLoaded += HandleOnAdLoaded;
-//        // Called when an ad request failed to load.
-//        interstitial.OnAdFailedToLoad += HandleOnAdFailedToLoad;
-//        // Called when an ad is shown.
-//        interstitial.OnAdOpening += HandleOnAdOpened;
-//        // Called when the ad is closed.
-//        interstitial.OnAdClosed += HandleOnAdClosed;
-//        // Called when the ad click caused the user to leave the application.
-//        interstitial.OnAdLeavingApplication += HandleOnAdLeavingApplication;
-//#endif
-//        // Create an empty ad request.
-//        AdRequest request = new AdRequest.Builder().Build();
-//        // Load the interstitial with the request.
-//        interstitial.LoadAd(request);
-//    }
-
-//    public void HandleOnAdLoaded(object sender, EventArgs args)
-//    {
-//        retryTime = 0;
-//        Debug.Log("[Interstitial Ad]    HandleAdLoaded event received");
-//    }
-
-//    public void HandleOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
-//    {
-//        if (retryTime < AdMobManager.RETRY_TIME)
-//        {
-//            ++retryTime;
-//            RequestInterstitial();
-//        }
-//        Debug.Log("[Interstitial Ad]    HandleFailedToReceiveAd event received with message: "
-//                            + args.Message);
-//    }
-
-//    public void HandleOnAdOpened(object sender, EventArgs args)
-//    {
-//        Debug.Log("[Interstitial Ad]    HandleAdOpened event received");
-//    }
-
-//    public void HandleOnAdClosed(object sender, EventArgs args)
-//    {
-//        RequestInterstitial();
-//        Debug.Log("[Interstitial Ad]    HandleAdClosed event received");
-//    }
-
-//    public void HandleOnAdLeavingApplication(object sender, EventArgs args)
-//    {
-//        Debug.Log("[Interstitial Ad]    HandleAdLeavingApplication event received");
-//    }
-
-//    public void Show()
-//    {
-//        if (interstitial.IsLoaded())
-//            interstitial.Show();
-//        else
-//        {
-//            retryTime = 0;
-//            RequestInterstitial();
-//        }
-//    }
-
-//    public void Close()
-//    {
-//        interstitial.Destroy();
-//    }
 }

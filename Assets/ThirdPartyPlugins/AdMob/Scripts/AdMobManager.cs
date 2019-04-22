@@ -24,10 +24,10 @@ namespace SznFramework.AdMob
                 // Initialize the Google Mobile Ads SDK.
                 MobileAds.Initialize(AdMobConfig.AD_MOB_APP_ID);
 
-                if (!string.IsNullOrEmpty(AdMobConfig.BannerAdId))
+                if (!string.IsNullOrEmpty(AdMobConfig.BANNER_AD_ID))
                 {
                     if(null == InBannerAdSize) InBannerAdSize = AdSize.Banner;
-                    BannerAd = new BannerAdController(AdMobConfig.BannerAdId, InBannerAdSize, InBannerAdPosition);
+                    BannerAd = new BannerAdController(AdMobConfig.BANNER_AD_ID, InBannerAdSize, InBannerAdPosition);
                 }
 
                 if (!string.IsNullOrEmpty(AdMobConfig.INTERSTITIAL_AD_ID))
@@ -35,9 +35,9 @@ namespace SznFramework.AdMob
                     InterstitialAd = new InterstitialAdController(AdMobConfig.INTERSTITIAL_AD_ID);
                 }
 
-                if (!string.IsNullOrEmpty(AdMobConfig.RewardAdId))
+                if (!string.IsNullOrEmpty(AdMobConfig.REWARD_AD_ID))
                 {
-                    RewardAd = new RewardAdController(AdMobConfig.RewardAdId);
+                    RewardAd = new RewardAdController(AdMobConfig.REWARD_AD_ID);
                 }
             }
         }
