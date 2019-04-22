@@ -15,7 +15,7 @@ namespace SznFramework.AdMob
         {
             if (string.IsNullOrEmpty(AdMobConfig.AD_MOB_APP_ID))
             {
-                Debug.LogError("The AdMob id is empty. Please set the corresponding platform ID in the 'AdMobConfig' script. ");
+                Debug.LogError("The AdMobTest id is empty. Please set the corresponding platform ID in the 'AdMobConfig' script. ");
             }
             else
             {

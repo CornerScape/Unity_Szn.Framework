@@ -69,15 +69,15 @@ public class TestReporter : MonoBehaviour
 		style.wordWrap = true;
 
 		for (int i = 0; i < 10; i++) {
-			Debug.Log("Test Collapsed log");
-			Debug.LogWarning("Test Collapsed Warning");
-			Debug.LogError("Test Collapsed Error");
+			Debug.Log("AdMobTest Collapsed log");
+			Debug.LogWarning("AdMobTest Collapsed Warning");
+			Debug.LogError("AdMobTest Collapsed Error");
 		}
 
 		for (int i = 0; i < 10; i++) {
-			Debug.Log("Test Collapsed log");
-			Debug.LogWarning("Test Collapsed Warning");
-			Debug.LogError("Test Collapsed Error");
+			Debug.Log("AdMobTest Collapsed log");
+			Debug.LogWarning("AdMobTest Collapsed Warning");
+			Debug.LogError("AdMobTest Collapsed Error");
 		}
 
 		rect1 = new Rect(Screen.width / 2 - 120, Screen.height / 2 - 225, 240, 50);
@@ -99,9 +99,9 @@ public class TestReporter : MonoBehaviour
 	void threadLogTest()
 	{
 		for (int i = 0; i < threadLogTestCount; i++) {
-			Debug.Log("Test Log from Thread");
-			Debug.LogWarning("Test Warning from Thread");
-			Debug.LogError("Test Error from Thread");
+			Debug.Log("AdMobTest Log from Thread");
+			Debug.LogWarning("AdMobTest Warning from Thread");
+			Debug.LogError("AdMobTest Error from Thread");
 		}
 	}
 
@@ -110,9 +110,9 @@ public class TestReporter : MonoBehaviour
 	{
 		int drawn = 0;
 		while (currentLogTestCount < logTestCount && drawn < 10) {
-			Debug.Log("Test Log " + currentLogTestCount);
-			Debug.LogError("Test LogError " + currentLogTestCount);
-			Debug.LogWarning("Test LogWarning " + currentLogTestCount);
+			Debug.Log("AdMobTest Log " + currentLogTestCount);
+			Debug.LogError("AdMobTest LogError " + currentLogTestCount);
+			Debug.LogWarning("AdMobTest LogWarning " + currentLogTestCount);
 			drawn++;
 			currentLogTestCount++;
 		}

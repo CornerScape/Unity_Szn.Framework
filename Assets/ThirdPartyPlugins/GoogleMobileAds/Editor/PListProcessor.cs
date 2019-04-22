@@ -10,7 +10,7 @@
 //    [PostProcessBuild]
 //    public static void OnPostProcessBuild(BuildTarget buildTarget, string path)
 //    {
-//          // Replace with your iOS AdMob app ID. Your AdMob App ID will look
+//          // Replace with your iOS AdMobTest app ID. Your AdMobTest App ID will look
 //          // similar to this sample ID: ca-app-pub-3940256099942544~1458002511
 //          string appId = "ADMOB_APPLICATION_ID";
 

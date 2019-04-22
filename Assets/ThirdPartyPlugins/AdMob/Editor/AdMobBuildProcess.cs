@@ -59,7 +59,7 @@ namespace SznFramework.AdMob
                 }
                 else
                 {
-                    Debug.LogError("AdMob AndroidManifest.xml does not exist with the '"
+                    Debug.LogError("AdMobTest AndroidManifest.xml does not exist with the '"
                                    + ANDROID_MANIFEST_FILE_PATH
                                    + "' directory, please modify the location. ");
                 }
