@@ -190,7 +190,7 @@ public class Reporter : MonoBehaviour
 	bool showFpsButton = true;
 	bool showSearchText = true;
 
-	string buildDate;
+//	string buildDate;
 	string logDate;
 	float logsMemUsage;
 	float graphMemUsage;
@@ -589,7 +589,7 @@ public class Reporter : MonoBehaviour
 	void Start()
 	{
 		logDate = System.DateTime.Now.ToString();
-		StartCoroutine("readInfo");
+		//StartCoroutine("readInfo");
 	}
 
 	//clear all logs
@@ -742,7 +742,7 @@ public class Reporter : MonoBehaviour
 		GUILayout.Space(size.x);
 		GUILayout.Box(buildFromContent, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y));
 		GUILayout.Space(size.x);
-		GUILayout.Label(buildDate, nonStyle, GUILayout.Height(size.y));
+		//GUILayout.Label(buildDate, nonStyle, GUILayout.Height(size.y));
 		GUILayout.FlexibleSpace();
 		GUILayout.EndHorizontal();
 
@@ -2034,45 +2034,45 @@ public class Reporter : MonoBehaviour
 	}
 
 	//read build information 
-	IEnumerator readInfo()
-	{
-		string prefFile = "build_info.txt";
-		string url = prefFile;
-
-		if (prefFile.IndexOf("://") == -1) {
-			string streamingAssetsPath = Application.streamingAssetsPath;
-			if (streamingAssetsPath == "")
-				streamingAssetsPath = Application.dataPath + "/StreamingAssets/";
-			url = System.IO.Path.Combine(streamingAssetsPath, prefFile);
-		}
-
-		//if (Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
-			if (!url.Contains("://"))
-				url = "file://" + url;
-
-
-		// float startTime = Time.realtimeSinceStartup;
-#if UNITY_CHANGE4
-		UnityWebRequest www = UnityWebRequest.Get(url);
-		yield return www.SendWebRequest();
-#else
-		WWW www = new WWW(url);
-		yield return www;
-#endif
-
-		if (!string.IsNullOrEmpty(www.error)) {
-			Debug.LogError(www.error);
-		}
-		else {
-#if UNITY_CHANGE4
-			buildDate = www.downloadHandler.text;
-#else
-			buildDate = www.text;
-#endif
-		}
-
-		yield break;
-	}
+//	IEnumerator readInfo()
+//	{
+//		string prefFile = "build_info.txt";
+//		string url = prefFile;
+//
+//		if (prefFile.IndexOf("://") == -1) {
+//			string streamingAssetsPath = Application.streamingAssetsPath;
+//			if (streamingAssetsPath == "")
+//				streamingAssetsPath = Application.dataPath + "/StreamingAssets/";
+//			url = System.IO.Path.Combine(streamingAssetsPath, prefFile);
+//		}
+//
+//		//if (Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
+//			if (!url.Contains("://"))
+//				url = "file://" + url;
+//
+//
+//		// float startTime = Time.realtimeSinceStartup;
+//#if UNITY_CHANGE4
+//		UnityWebRequest www = UnityWebRequest.Get(url);
+//		yield return www.SendWebRequest();
+//#else
+//		WWW www = new WWW(url);
+//		yield return www;
+//#endif
+//
+//		if (!string.IsNullOrEmpty(www.error)) {
+//			Debug.LogError(www.error);
+//		}
+//		else {
+//#if UNITY_CHANGE4
+//			buildDate = www.downloadHandler.text;
+//#else
+//			buildDate = www.text;
+//#endif
+//		}
+//
+//		yield break;
+//	}
 
     private void SaveLogsToDevice()
     {

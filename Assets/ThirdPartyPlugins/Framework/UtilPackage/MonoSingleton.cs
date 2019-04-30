@@ -10,15 +10,20 @@ namespace SznFramework.UtilPackage
         {
             get
             {
-                if (null != instance) return instance;
-                instance = FindObjectOfType<T>();
-                if (null != instance) return instance;
+                if (null == instance)
+                {
+                    instance = FindObjectOfType<T>();
+                    if (null == instance)
+                    {
+                        GameObject child = new GameObject(typeof(T).Name);
+                        child.transform.localPosition = Vector3.zero;
+                        child.transform.localRotation = Quaternion.identity;
+                        child.transform.localScale = Vector3.one;
+                        instance = child.AddComponent<T>();
+                         
+                    }
+                }
 
-                GameObject child = new GameObject(typeof(T).Name);
-                child.transform.localPosition = Vector3.zero;
-                child.transform.localRotation = Quaternion.identity;
-                child.transform.localScale = Vector3.one;
-                instance = child.AddComponent<T>();
                 return instance;
             }
         }
@@ -28,7 +33,7 @@ namespace SznFramework.UtilPackage
         /// 用于初始化单例
         /// 非必须，但此举可以节省一次FindObjectOfType调用
         /// </summary>
-        protected virtual void Awake()
+        private void Awake()
         {
             DontDestroyOnLoad(gameObject);
 
@@ -48,7 +53,7 @@ namespace SznFramework.UtilPackage
         /// 用于重绑定单例
         /// 非必须，但是如果在OnDisable()中调用了父方法则必须在OnEnable()中进行重绑定
         /// </summary>
-        protected virtual void OnEnable()
+        private void OnEnable()
         {
             if (default(T) == instance)
             {
@@ -66,7 +71,7 @@ namespace SznFramework.UtilPackage
         /// 用于销毁单例
         /// 非必须，但是基于Unity组件OnDisable()状态下某些方法不可用，如果需要在OnDisable()状态下调用该脚本的某些方法请进行剥离
         /// </summary>
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
             instance = null;
         }

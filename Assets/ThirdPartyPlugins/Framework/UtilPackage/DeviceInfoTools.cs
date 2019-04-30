@@ -11,6 +11,7 @@ namespace SznFramework.UtilPackage
             get { return instance ?? (instance = new DeviceInfoTools()); }
         }
 
+        
 #if UNITY_EDITOR
 #elif UNITY_ANDROID
         public AndroidJavaClass UnityPlayer { get; private set; }
