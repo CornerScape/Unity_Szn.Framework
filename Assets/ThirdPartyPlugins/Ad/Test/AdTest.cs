@@ -1,7 +1,6 @@
-﻿using SznFramework.Ads;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SznFramework.AdMob.Test
+namespace SznFramework.Ads.Test
 {
     public class AdTest : MonoBehaviour
     {

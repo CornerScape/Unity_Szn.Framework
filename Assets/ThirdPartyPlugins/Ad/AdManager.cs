@@ -3,6 +3,8 @@
 //#endif
 
 using System;
+using SznFramework.UtilPackage;
+using SznFramework.YoMob;
 using UnityEngine;
 
 #if ADS_ADMOB
@@ -11,15 +13,21 @@ using SznFramework.AdMob;
 
 namespace SznFramework.Ads
 {
-    public class AdManager : MonoBehaviour
+    public class AdManager : MonoSingleton<AdManager>
     {
 #if ADS
 #if AD_DEBUG
 #if UNITY_ANDROID
+#if ADS_ADMOB
         public const string AD_APP_ID = "ca-app-pub-3940256099942544~3347511713";
         public const string AD_BANNER_ID = "ca-app-pub-3940256099942544/6300978111";
         public const string AD_INTERSTITIAL_ID = "ca-app-pub-3940256099942544/1033173712";
         public const string AD_REWARD_ID = "ca-app-pub-3940256099942544/5224354917";
+#elif ADS_YOMOB
+        public const string AD_APP_ID = "485u3rKMkTv080mwFS38";
+        public const string AD_INTERSTITIAL_ID = "8eW7SJ8oUTrhvYlQO3s";
+        public const string AD_REWARD_ID = "n52tvNtFXuvKI2GWJEa";
+#endif
 #elif UNITY_IOS
         public const string AD_APP_ID = "ca-app-pub-3940256099942544~1458002511";
         public const string AD_BANNER_ID = "ca-app-pub-3940256099942544/2934735716";
@@ -29,10 +37,16 @@ namespace SznFramework.Ads
 
 #elif AD_RELEASE
 #if UNITY_ANDROID
+#if ADS_ADMOB
         public const string AD_APP_ID = "";
         public const string AD_BANNER_ID = "";
         public const string AD_INTERSTITIAL_ID = "";
         public const string AD_REWARD_ID = "";
+#elif ADS_YOMOB
+        public const string AD_APP_ID = "ca-app-pub-3940256099942544~3347511713";
+        public const string AD_INTERSTITIAL_ID = "ca-app-pub-3940256099942544/1033173712";
+        public const string AD_REWARD_ID = "ca-app-pub-3940256099942544/5224354917";
+#endif
 #elif UNITY_IOS
         public const string AD_APP_ID = "";
         public const string AD_BANNER_ID = "";
@@ -42,26 +56,7 @@ namespace SznFramework.Ads
 #endif
 #endif
 
-        private static AdManager instance;
-
-        public static AdManager Instance
-        {
-            get
-            {
-                if (null == instance)
-                {
-                    instance = FindObjectOfType<AdManager>();
-                    if (null == instance)
-                    {
-                        GameObject adGameObj = new GameObject("AdManager");
-                        instance = adGameObj.AddComponent<AdManager>();
-                    }
-                }
-
-                return instance;
-            }
-        }
-
+        #region Event
         private Action<bool> bannerLoadCallback, interstitialLoadCallback, rewardLoadCallback;
 
         public void RegisterBannerLoadCallback(Action<bool> InLoadCallback)
@@ -118,15 +113,8 @@ namespace SznFramework.Ads
             if (null != rewardLoadCallback) rewardLoadCallback.Invoke(InLoadResult);
         }
 
-        private void Awake()
-        {
-            if (null != instance && instance != this)
-            {
-                Debug.LogError("The class already has an instance. ");
-                DestroyImmediate(this);
-            }
-        }
-
+        #endregion
+        
         public void InitAd(Action<bool> InLoadBannerCallback = null,
             Action<bool> InLoadInterstitialCallback = null,
             Action<bool> InLoadRewardCallback = null)
@@ -143,6 +131,8 @@ namespace SznFramework.Ads
             AdMobController.BannerAd.RegisterAdLoadCallback(InvokeBannerLoadCallback);
             AdMobController.InterstitialAd.RegisterAdLoadCallback(InvokeInterstitialLoadCallback);
             AdMobController.RewardAd.RegisterAdLoadCallback(InvokeRewardLoadCallback);
+#elif ADS_YOMOB
+            YoMobController.Instance.Init(true, bannerLoadCallback, interstitialLoadCallback, rewardLoadCallback);
 #endif
 #endif
         }
@@ -211,6 +201,8 @@ namespace SznFramework.Ads
 #else
 #if ADS_ADMOB
             return AdMobController.InterstitialAd != null && AdMobController.InterstitialAd.IsReady;
+#elif ADS_YOMOB
+            return YoMobController.Instance.IsInterstitialAdReady;
 #else
             return false;
 #endif
@@ -223,6 +215,8 @@ namespace SznFramework.Ads
             {
 #if ADS_ADMOB
                 AdMobController.InterstitialAd.Show();
+#elif ADS_YOMOB
+                YoMobController.Instance.ShowInterstitialAd();
 #endif
             }
         }
@@ -235,6 +229,8 @@ namespace SznFramework.Ads
 #else
 #if ADS_ADMOB
             return AdMobController.RewardAd != null && AdMobController.RewardAd.IsReady;
+#elif ADS_YOMOB
+            return YoMobController.Instance.IsRewardAdReady;
 #else
             return false;
 #endif
@@ -247,6 +243,8 @@ namespace SznFramework.Ads
             {
 #if ADS_ADMOB
                 AdMobController.RewardAd.Show(InCallback);
+#elif ADS_YOMOB
+                YoMobController.Instance.ShowRewardAd(InCallback);
 #endif
             }
         }
