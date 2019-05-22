@@ -552,7 +552,7 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
     4: ADS;AD_DEBUG
-    7: ADS;AD_DEBUG;ADS_YOMOB
+    7: ADS;AD_DEBUG;UNIT_TEST
   platformArchitecture:
     iOS: 0
   scriptingBackend:
