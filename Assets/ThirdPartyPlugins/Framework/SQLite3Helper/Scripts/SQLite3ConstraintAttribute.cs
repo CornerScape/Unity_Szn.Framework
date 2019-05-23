@@ -5,20 +5,19 @@ namespace SznFramework.SQLite3Helper
     [AttributeUsage(AttributeTargets.Property)]
     public class SQLite3ConstraintAttribute : Attribute
     {
-        private string constraint;
-        public string Constraint { get { return constraint; } }
+        public readonly string Constraint;
 
         public SQLite3ConstraintAttribute(SQLite3Constraint InConstraint)
         {
-            constraint = string.Empty;
+            Constraint = string.Empty;
             if ((InConstraint & SQLite3Constraint.PrimaryKey) == SQLite3Constraint.PrimaryKey)
-                constraint += "PRIMARY KEY ";
+                Constraint += "PRIMARY KEY ";
             if ((InConstraint & SQLite3Constraint.AutoIncrement) == SQLite3Constraint.AutoIncrement)
-                constraint += "AUTOINCREMENT ";
+                Constraint += "AUTOINCREMENT ";
             if ((InConstraint & SQLite3Constraint.Unique) == SQLite3Constraint.Unique)
-                constraint += "UNIQUE ";
+                Constraint += "UNIQUE ";
             if ((InConstraint & SQLite3Constraint.NotNull) == SQLite3Constraint.NotNull)
-                constraint += "NOT NULL ";
+                Constraint += "NOT NULL ";
         }
 
         public static string ConvertToString(SQLite3Constraint InConstraint)

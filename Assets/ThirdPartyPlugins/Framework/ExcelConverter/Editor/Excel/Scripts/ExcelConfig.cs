@@ -1,5 +1,5 @@
 ﻿
-namespace SznFramework.ExcelConverter
+namespace SznFramework.Excel.Editor
 {
     public class ExcelConfig
     {

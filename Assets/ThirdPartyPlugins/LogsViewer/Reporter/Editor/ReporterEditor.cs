@@ -26,7 +26,7 @@ public class ReporterEditor : Editor
 
 		if (MonoImporter.GetExecutionOrder(reporterScript) != ReporterExecOrder) {
 			MonoImporter.SetExecutionOrder(reporterScript, ReporterExecOrder);
-			//Debug.Log("Fixing exec order for " + reporterScript.name);
+			//Debug.Dialog("Fixing exec order for " + reporterScript.name);
 		}
 
 		reporter.images = new Images();
@@ -76,7 +76,7 @@ public class ReporterEditor : Editor
 //		static void Update()
 //		{
 //			if (!EditorApplication.isCompiling && isCompiling) {
-//				//Debug.Log("Finish Compile");
+//				//Debug.Dialog("Finish Compile");
 //				if (!Directory.Exists(Application.dataPath + "/StreamingAssets")) {
 //					Directory.CreateDirectory(Application.dataPath + "/StreamingAssets");
 //				}

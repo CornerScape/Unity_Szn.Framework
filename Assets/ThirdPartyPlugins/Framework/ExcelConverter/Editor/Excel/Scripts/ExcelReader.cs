@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
-namespace SznFramework.ExcelConverter
+namespace SznFramework.Excel.Editor
 {
     public class ExcelReader
     {
@@ -100,7 +100,7 @@ namespace SznFramework.ExcelConverter
                                 if (data.CheckData()) dataList.Add(data);
                             }
                             else
-                                Log.Error(info.Name + "-" + sheet.SheetName +
+                                Dialog.Error(info.Name + "-" + sheet.SheetName +
                                           " property name and type number does not match.");
 
                             //else if(0 != rowCount) EditorUtility.DisplayDialog("Error", info.Name + "-" + sheet.SheetName + " missing basic configuration information, property name and type.", "Ok");

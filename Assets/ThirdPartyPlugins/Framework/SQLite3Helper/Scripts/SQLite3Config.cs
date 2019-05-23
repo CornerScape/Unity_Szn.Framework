@@ -97,5 +97,7 @@ namespace SznFramework.SQLite3Helper
         public static readonly Type DOUBLE_TYPE = typeof(double);
 
         public static readonly Type STRING_TYPE = typeof(string);
+
+
     }
 }

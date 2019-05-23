@@ -5,9 +5,9 @@ namespace SznFramework.Editor.SQLite3Creator
 {
     public enum SQLite3ValueType
     {
-        INTEGER,
-        REAL,
-        TEXT,
+        Integer,
+        Real,
+        Text,
        // BLOB
     }
 
@@ -26,14 +26,14 @@ namespace SznFramework.Editor.SQLite3Creator
         public ICell[][] ExcelContents;
     }
     
-    public class SQLite3EditorConfig
+    public static class SQLite3EditorConfig
     {
         public const int NAME_ROW_INDEX_I = 0;
         public const int TYPE_ROW_INDEX_I = 1;
         public const int DESCRIBE_ROW_INDEX_I = 2;
 
-        public readonly string EXCEL_CONFIG_DIRECTORY_S = UnityEngine.Application.dataPath +  "/ConfigTable";
-        public readonly string SQLITE3_SCRIPT_SAVE_DIRECTORY_S = UnityEngine.Application.dataPath + "/Scripts/Data/Config/";
-        public readonly string SQLITE3_DATABASE_SAVE_DIRECTORY_S = UnityEngine.Application.streamingAssetsPath + "/";
+        public static readonly string EXCEL_CONFIG_DIRECTORY_S = UnityEngine.Application.dataPath +  "/ConfigTable";
+        public static readonly string SQLITE3_SCRIPT_SAVE_DIRECTORY_S = UnityEngine.Application.dataPath + "/Scripts/Data/Config/";
+        public static readonly string SQLITE3_DATABASE_SAVE_DIRECTORY_S = UnityEngine.Application.streamingAssetsPath + "/";
     }
 }

@@ -1,8 +1,8 @@
 ﻿using UnityEditor;
 
-namespace SznFramework.ExcelConverter
+namespace SznFramework.Excel
 {
-    public static class Log
+    public static class Dialog
     {
         public static void Info(string InMsg)
         {

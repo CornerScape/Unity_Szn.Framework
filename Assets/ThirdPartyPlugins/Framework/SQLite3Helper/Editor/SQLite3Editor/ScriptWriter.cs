@@ -97,9 +97,7 @@ namespace SznFramework.Editor.SQLite3Creator
             sb.Append("        public ").Append(filename).Append("()\n")
                 .Append("        {\n")
                 .Append("        }\n\n");
-
-
-
+            
             sb.Append("        public ").Append(filename).Append("(");
             for (int i = 0; i < length; ++i)
             {

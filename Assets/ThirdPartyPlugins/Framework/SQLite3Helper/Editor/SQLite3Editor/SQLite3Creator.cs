@@ -52,7 +52,7 @@ namespace SznFramework.Editor.SQLite3Creator
                             var cell = InTableData.ExcelContents[i][j];
                             switch (InTableData.SQLite3Types[j])
                             {
-                                case SQLite3ValueType.INTEGER:
+                                case SQLite3ValueType.Integer:
                                     if (null == cell)
                                         sb.Append(0);
                                     else
@@ -106,7 +106,7 @@ namespace SznFramework.Editor.SQLite3Creator
                                     }
                                     break;
 
-                                case SQLite3ValueType.REAL:
+                                case SQLite3ValueType.Real:
                                     if (null == cell)
                                         sb.Append(0);
                                     else
@@ -161,7 +161,7 @@ namespace SznFramework.Editor.SQLite3Creator
                                     }
                                     break;
 
-                                case SQLite3ValueType.TEXT:
+                                case SQLite3ValueType.Text:
                                     if (null == cell)
                                         sb.Append("''");
                                     else

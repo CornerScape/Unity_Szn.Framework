@@ -9,7 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 057bb2cfe2160194f98d74f941635399, type: 3}
-  m_Name: SQLite3Version
+  m_Name: Sqlite3Data
   m_EditorClassIdentifier: 
-  DbName: Static.db
-  DbMd5: 04022777c29732a6970d85b7384dca8d
+  AllData:
+  - Name: Static.db
+    LocalName: 
+    Md5: 

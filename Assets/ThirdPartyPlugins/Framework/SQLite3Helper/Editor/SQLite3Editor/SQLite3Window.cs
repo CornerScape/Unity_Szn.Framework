@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SznFramework.ExcelConverter;
+using SznFramework.Excel.Editor;
 using SznFramework.SQLite3Helper;
 using UnityEditor;
 using UnityEngine;
@@ -50,7 +50,6 @@ namespace SznFramework.Editor.SQLite3Creator
 
                 set
                 {
-
                     scriptPath = value.Replace(dataPath, string.Empty);
                     EditorPrefs.SetString(scriptPrefKey, scriptPath);
                 }
@@ -101,18 +100,18 @@ namespace SznFramework.Editor.SQLite3Creator
             window.ShowUtility();
         }
 
-        [MenuItem("Framework/Database/Update SQLite3 Version")]
-        private static void UpdateSQLite3Version()
-        {
-            SQLite3Version version = CreateInstance<SQLite3Version>();
+        //[MenuItem("Framework/Database/Update SQLite3 Version")]
+        //private static void UpdateSQLite3Version()
+        //{
+        //    SQLite3Version version = CreateInstance<SQLite3Version>();
 
-            version.DbName = "Static.db";
-            version.DbMd5 = SQLite3Utility.GetFileMd5(Application.streamingAssetsPath + "/Static.db");
+        //    version.DbName = "Static.db";
+        //    version.DbMd5 = SQLite3Utility.GetFileMd5(Application.streamingAssetsPath + "/Static.db");
 
-            AssetDatabase.CreateAsset(version, "Assets/ThirdPartyPlugin/SQLite3/Resources/SQLite3Version.asset");
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-        }
+        //    AssetDatabase.CreateAsset(version, "Assets/ThirdPartyPlugin/SQLite3/Resources/SQLite3Version.asset");
+        //    AssetDatabase.SaveAssets();
+        //    AssetDatabase.Refresh();
+        //}
 
         private void OnEnable()
         {
@@ -156,7 +155,7 @@ namespace SznFramework.Editor.SQLite3Creator
         {
             ExcelData[] excelData = ExcelReader.GetSingleExcelData(InExcelPath);
 
-            #region Log
+            #region Dialog
             //for (int i = 0; i < excelData.Length; i++)
             //{
             //    for (int j = 0; j < excelData[i].HeadRowLen; j++)
@@ -293,17 +292,17 @@ namespace SznFramework.Editor.SQLite3Creator
                             case "int":
                             case "bool":
                             case "long":
-                                data[i].SQLite3Types[j] = SQLite3ValueType.INTEGER;
+                                data[i].SQLite3Types[j] = SQLite3ValueType.Integer;
                                 break;
                             case "float":
                             case "double":
-                                data[i].SQLite3Types[j] = SQLite3ValueType.REAL;
+                                data[i].SQLite3Types[j] = SQLite3ValueType.Real;
                                 break;
                             case "string":
-                                data[i].SQLite3Types[j] = SQLite3ValueType.TEXT;
+                                data[i].SQLite3Types[j] = SQLite3ValueType.Text;
                                 break;
                             default:
-                                if (data[i].CSharpTypes[j].Contains("[]")) data[i].SQLite3Types[j] = SQLite3ValueType.TEXT;
+                                if (data[i].CSharpTypes[j].Contains("[]")) data[i].SQLite3Types[j] = SQLite3ValueType.Text;
                                 else throw new NotSupportedException();//data[i].SQLite3Types[j] = SQLite3ValueType.BLOB;
                                 break;
                         }
@@ -615,7 +614,7 @@ namespace SznFramework.Editor.SQLite3Creator
                                                             EditorGUILayout.LabelField("SQLite3 Constraint:", leftTittleStyle, GUILayout.Width(114));
                                                             isPrimaryKey = EditorGUILayout.ToggleLeft("PrimaryKey", isPrimaryKey, GUILayout.Width(80));
 
-                                                            if (tableData[i][j].SQLite3Types[k] != SQLite3ValueType.INTEGER)
+                                                            if (tableData[i][j].SQLite3Types[k] != SQLite3ValueType.Integer)
                                                             {
                                                                 GUI.enabled = false;
                                                                 isAutoIncrement = false;
