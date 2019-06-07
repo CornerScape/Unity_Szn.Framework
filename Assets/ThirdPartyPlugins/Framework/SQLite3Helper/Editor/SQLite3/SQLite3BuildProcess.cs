@@ -39,7 +39,7 @@ public class SQLite3BuildProcess : IPreprocessBuild
                 Md5 = MD5Tools.GetFileMd5(dbFileInfos[i].FullName)
             };
             string dirPath = dbFileInfos[i].DirectoryName;
-            singleData.Directory = string.IsNullOrEmpty(dirPath) ? string.Empty : dirPath.Replace('\\', '/').Replace(streamingAssetsPath, string.Empty);
+            singleData.Directory = string.IsNullOrEmpty(dirPath) || dirPath == streamingAssetsPath ? string.Empty : dirPath.Replace('\\', '/').Replace(streamingAssetsPath, string.Empty);
             
             data.AllData.Add(singleData);
         }

@@ -1,6 +1,10 @@
-﻿using NPOI.SS.UserModel;
+﻿using System.Collections.Generic;
+using NPOI.SS.UserModel;
+using System.IO;
 using System.Text;
 using SznFramework.SQLite3Helper;
+using UnityEditor;
+using UnityEngine;
 
 namespace SznFramework.Editor.SQLite3Creator
 {
@@ -223,6 +227,55 @@ namespace SznFramework.Editor.SQLite3Creator
             }
 
             handle.CloseDb();
+
+            UpdateSQLite3Version(InDatabasePath);
+        }
+
+        private static void UpdateSQLite3Version(string InPath)
+        {
+            FileInfo fileInfo = new FileInfo(InPath);
+            string dbName = fileInfo.Name;
+            bool needReset = true;
+            SQLite3Data data = Resources.Load<SQLite3Data>("Sqlite3Data");
+            if (data.AllData != null)
+            {
+                int count = data.AllData.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (data.AllData[i].Name == dbName)
+                    {
+                        needReset = false;
+                        break;
+                    }
+                }
+            }
+
+            if (needReset)
+            {
+                string dir = fileInfo.DirectoryName;
+                if (!string.IsNullOrEmpty(dir))
+                    if (dir.IndexOf('\\') != -1) dir = dir.Replace('\\', '/');
+
+                string streamPath = Application.streamingAssetsPath;
+                if (streamPath.IndexOf('\\') != -1) streamPath = streamPath.Replace('\\', '/');
+
+                // ReSharper disable once PossibleNullReferenceException
+                dir = dir == streamPath ? string.Empty : dir.Replace(streamPath +"/", string.Empty);
+
+                SQLite3SingleData singleData = new SQLite3SingleData {Directory = dir, Name = dbName};
+                SQLite3Data newData = ScriptableObject.CreateInstance<SQLite3Data>();
+                if (data.AllData == null)
+                {
+                    newData.AllData = new List<SQLite3SingleData>(2) {singleData};
+                }
+                else
+                {
+                    newData.AllData = new List<SQLite3SingleData>(data.AllData.Count + 2);
+                    newData.AllData.AddRange(data.AllData);
+                    newData.AllData.Add(singleData);
+                }
+                AssetDatabase.CreateAsset(newData, AssetDatabase.GetAssetPath(data));
+            }
         }
 
         private static string GetConstraint(SQLite3Constraint InConstraint)

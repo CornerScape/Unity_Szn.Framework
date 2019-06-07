@@ -1,140 +1,81 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 namespace SznFramework.SQLite3Helper
 {
     public static class SQLite3Factory
     {
-        /// <summary>
-        /// Open a SQLite3 database that exists in the persistentDataPath directory as read-only.
-        /// </summary>
+        //        /// <summary>
+        //        /// If there is no database in the persistentDataPath directory, or database in the persistentDataPath directory md5 not match original,
+        //        /// Then copy the database from the streamingAssetsPath directory to the persistentDataPath directory and open the database in read-only mode
+        //        /// </summary>
         /// <param name="InDbName">The name of the SQLite3 database.</param>
         /// <returns>Operation SQLite3 database handle.</returns>
-        //public static SQLite3Operate OpenToRead(string InDbName)
-        //{
-//#if UNITY_EDITOR
-//            string dbPath = Path.Combine(Application.streamingAssetsPath, InDbName);
-//            if (File.Exists(dbPath)) return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
-//            else return null;
+        public static SQLite3Operate OpenToRead(string InDbName)
+        {
+            SQLite3Data data = Resources.Load<SQLite3Data>("Sqlite3Data");
+            if (null == data || null == data.AllData) throw new Exception("Not found sqlite3 data file in '/SQLite3Helper/Resources/Sqlite3Data.asset'");
+            int count = data.AllData.Count;
+            SQLite3SingleData singleData = null;
+            for (int i = 0; i < count; i++)
+            {
+                if (data.AllData[i].Name == InDbName)
+                {
+                    singleData = data.AllData[i];
+                    break;
+                }
+            }
 
-//#else
-//            string dbPath = Path.Combine(Application.persistentDataPath, InDbName);
-            
-//            //return null;
-//            bool needUpdate = true;
-//            if (File.Exists(dbPath))
-//            {
-//#if DEBUG_MODE
-//                needUpdate = false;
-//#else
-//                SQLite3Version version = Resources.Load<SQLite3Version>("SQLite3Version");
-//                if (MD5Utility.GetFileMD5(dbPath).Equals(version.DbMd5)) needUpdate = false;
-//#endif
-//            }
+            if (singleData == null) throw new Exception("Not found sqlite3 data named + " + InDbName);
 
-//            if (needUpdate)
-//            {
-//#if UNITY_ANDROID
-//                using (WWW www = new WWW(Path.Combine("jar:file://" + Application.dataPath + "!/assets/", InDbName)))
-//                {
-//                    while (!www.isDone)
-//                    {
+#if UNITY_EDITOR
+            string dbPath = Application.streamingAssetsPath;
+            if (!string.IsNullOrEmpty(singleData.Directory)) dbPath = Path.Combine(dbPath, singleData.Directory);
+            dbPath = Path.Combine(dbPath, singleData.Name);
+            if (!File.Exists(dbPath)) throw new Exception("Not found sqlite3 file named + " + InDbName);
+#else
+            string dbPath = string.Format("{0}/{1}/", Application.persistentDataPath, singleData.Directory);
+            if (!Directory.Exists(dbPath)) Directory.CreateDirectory(dbPath);
+            dbPath = string.Format("{0}{1}.png",dbPath, singleData.LocalName);
 
-//                    }
-                    
-//                    if (string.IsNullOrEmpty(www.error)) File.WriteAllBytes(dbPath, www.bytes);
-//                    else Debug.LogError("www error " + www.error);
-//                }
-//#elif UNITY_IOS
-                
-//                File.Copy(Path.Combine(Application.streamingAssetsPath, InDbName), dbPath, true);
-//#endif
-//        }
-//             return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
-//#endif
-        //}
+            Debug.LogError(dbPath);
+            bool needUpdate = true;
+            if (File.Exists(dbPath))
+            {
+                if (SznFramework.UtilPackage.MD5Tools.GetFileMd5(dbPath) == singleData.Md5) needUpdate = false;
+            }
 
-        //        /// <summary>
-        //        /// If there is no database in the persistentDataPath directory,
-        //        /// Then copy the database from the streamingAssetsPath directory to the persistentDataPath directory and open the database in read-only mode
-        //        /// Else if need to match detection
-        //        ///        then If the incoming Md5 is not empty, it is determined whether the database Md5 of the persistentDataPath directory matches.
-        //        ///                else  the incoming Md5 is empty, determine whether the database in the persistentDataPath directory is the same as the streamingAssetsPath directory.
-        //        ///        Else Open the existing database.
-        //        /// </summary>
-        //        /// <param name="InDbName">The name of the SQLite3 database.</param>
-        //        /// <param name="InNeedMatchDetection">Whether need to match detection.</param>
-        //        /// <param name="InMd5"></param>
-        //        /// <returns>Operation SQLite3 database handle.</returns>
-        //        public static SQLite3Operate OpenToRead(string InDbName, bool InNeedMatchDetection, string InMd5 = null)
-        //        {
-        //            string persistentDbPath = Path.Combine(Application.persistentDataPath, InDbName);
+            if (needUpdate)
+            {
+#if UNITY_ANDROID
+                string streamPath = string.IsNullOrEmpty(singleData.Directory)
+                    ? string.Format("jar:file://{0}!/assets/{1}", Application.dataPath, singleData.Name)
+                    : string.Format("jar:file://{0}!/assets{1}/{2}", Application.dataPath, singleData.Directory, singleData.Name);
 
-        //#if !UNITY_EDITOR && UNITY_ANDROID
-        //            string streamDbPath = Path.Combine("jar:file://" + Application.dataPath + "!/assets/", InDbName);
-        //#elif UNITY_IOS
-        //            string streamDbPath = Path.Combine(Application.dataPath + "/Raw/", InDbName);
-        //#else
-        //            string streamDbPath = Path.Combine(Application.streamingAssetsPath, InDbName);
-        //#endif
+                using (WWW www = new WWW(streamPath))
+                {
+                    while (!www.isDone)
+                    {
 
-        //            bool isNeedOverride = false;
-        //            byte[] dbBytes = null;
-        //            if (File.Exists(persistentDbPath))
-        //            {
-        //                if (InNeedMatchDetection)
-        //                {
-        //                    if (string.IsNullOrEmpty(InMd5))
-        //                    {
-        //#if !UNITY_EDITOR && UNITY_ANDROID
-        //                        using (WWW www = new WWW(streamDbPath))
-        //                        {
-        //                            while (!www.isDone)
-        //                            {
-        //                            }
+                    }
 
-        //                            if (string.IsNullOrEmpty(www.error))
-        //                            {
-        //                                dbBytes = www.bytes;
-        //                                isNeedOverride = !SQLite3Utility.GetBytesMD5(dbBytes).Equals(SQLite3Utility.GetFileMD5(persistentDbPath));
-        //                            }
-        //                            else isNeedOverride = true;
-        //                        }
-        //#else
-        //                        dbBytes = File.ReadAllBytes(streamDbPath);
-        //                        isNeedOverride = !MD5Utility.GetBytesMD5(dbBytes).Equals(MD5Utility.GetFileMD5(persistentDbPath));
-        //#endif
-        //                    }
-        //                    else isNeedOverride = !InMd5.Equals(persistentDbPath);
-        //                }
-        //            }
-        //            else isNeedOverride = true;
+                    if (string.IsNullOrEmpty(www.error)) File.WriteAllBytes(dbPath, www.bytes);
+                    else Debug.LogError("www error " + www.error);
+                }
+#elif UNITY_IOS
+            string streamPath = string.IsNullOrEmpty(singleData.Directory)
+                ? string.Format("{0}/{1}", Application.streamingAssetsPath, singleData.Name)
+                : string.Format("{0}{1}/{2}", Application.streamingAssetsPath, singleData.Directory, singleData.Name);
 
-        //            if (isNeedOverride)
-        //            {
-        //                if (null == dbBytes)
-        //                {
-        //#if !UNITY_EDITOR && UNITY_ANDROID
-        //                    using (WWW www = new WWW(streamDbPath))
-        //                    {
-        //                        while (!www.isDone)
-        //                        {
-        //                        }
+                File.Copy(streamPath, dbPath, true);
+#endif
+            }
 
-        //                        if (string.IsNullOrEmpty(www.error)) dbBytes = www.bytes;
-        //                        else Debug.LogError("Copy database from streamingAssetsPath to persistentDataPath error. " + www.error);
-        //                    }
-        //#else
-        //                    dbBytes = File.ReadAllBytes(streamDbPath);
-        //#endif
-        //                }
-
-        //                File.WriteAllBytes(persistentDbPath, dbBytes);
-        //            }
-
-        //            return new SQLite3Operate(persistentDbPath, SQLite3OpenFlags.ReadOnly);
-        //        }
-
+#endif
+            return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
+        }
+        
         /// <summary>
         /// Open a SQLite3 database that exists in the persistentDataPath directory as read-write,
         /// If the database does not exist, create an empty database.

@@ -1,4 +1,5 @@
 ﻿#if UNIT_TEST
+using SQLite3TableDataTmp;
 using SznFramework.SQLite3Helper;
 using UnityEngine;
 
@@ -14,6 +15,18 @@ public class Sqlite3Test : MonoBehaviour
             {
                 Debug.LogError(singleData);
             }
+        }
+
+        if (GUILayout.Button("Load Static Data"))
+        {
+            SQLite3Operate operate = SQLite3Factory.OpenToRead("Static.db");
+            Debug.LogError(operate.SelectTbyId<LevelConfig>(40000));
+        }
+
+        if (GUILayout.Button("Load Dynamic Data"))
+        {
+            SQLite3Operate operate = SQLite3Factory.OpenToRead("Dynamic.db");
+            Debug.LogError(operate.SelectTbyId<LevelConfig>(40002));
         }
     }
 }
