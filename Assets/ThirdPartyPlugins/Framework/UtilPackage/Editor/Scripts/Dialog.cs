@@ -1,6 +1,7 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 
-namespace SznFramework.Excel
+namespace SznFramework.UtilPackage.Editor
 {
     public static class Dialog
     {
@@ -20,4 +21,4 @@ namespace SznFramework.Excel
         }
     }
 }
-
+#endif

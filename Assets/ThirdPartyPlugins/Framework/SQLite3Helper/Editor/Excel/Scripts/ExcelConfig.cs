@@ -1,5 +1,4 @@
-﻿
-namespace SznFramework.Excel.Editor
+﻿namespace SznFramework.Editor.Excel
 {
     public class ExcelConfig
     {
@@ -10,4 +9,3 @@ namespace SznFramework.Excel.Editor
         public const int CONTENT_START_ROW_INDEX_I = 3;
     }
 }
-

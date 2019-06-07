@@ -10,49 +10,49 @@ namespace SznFramework.SQLite3Helper
         /// </summary>
         /// <param name="InDbName">The name of the SQLite3 database.</param>
         /// <returns>Operation SQLite3 database handle.</returns>
-        public static SQLite3Operate OpenToRead(string InDbName)
-        {
-#if UNITY_EDITOR
-            string dbPath = Path.Combine(Application.streamingAssetsPath, InDbName);
-            if (File.Exists(dbPath)) return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
-            else return null;
+        //public static SQLite3Operate OpenToRead(string InDbName)
+        //{
+//#if UNITY_EDITOR
+//            string dbPath = Path.Combine(Application.streamingAssetsPath, InDbName);
+//            if (File.Exists(dbPath)) return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
+//            else return null;
 
-#else
-            string dbPath = Path.Combine(Application.persistentDataPath, InDbName);
+//#else
+//            string dbPath = Path.Combine(Application.persistentDataPath, InDbName);
             
-            //return null;
-            bool needUpdate = true;
-            if (File.Exists(dbPath))
-            {
-#if DEBUG_MODE
-                needUpdate = false;
-#else
-                SQLite3Version version = Resources.Load<SQLite3Version>("SQLite3Version");
-                if (MD5Utility.GetFileMD5(dbPath).Equals(version.DbMd5)) needUpdate = false;
-#endif
-            }
+//            //return null;
+//            bool needUpdate = true;
+//            if (File.Exists(dbPath))
+//            {
+//#if DEBUG_MODE
+//                needUpdate = false;
+//#else
+//                SQLite3Version version = Resources.Load<SQLite3Version>("SQLite3Version");
+//                if (MD5Utility.GetFileMD5(dbPath).Equals(version.DbMd5)) needUpdate = false;
+//#endif
+//            }
 
-            if (needUpdate)
-            {
-#if UNITY_ANDROID
-                using (WWW www = new WWW(Path.Combine("jar:file://" + Application.dataPath + "!/assets/", InDbName)))
-                {
-                    while (!www.isDone)
-                    {
+//            if (needUpdate)
+//            {
+//#if UNITY_ANDROID
+//                using (WWW www = new WWW(Path.Combine("jar:file://" + Application.dataPath + "!/assets/", InDbName)))
+//                {
+//                    while (!www.isDone)
+//                    {
 
-                    }
+//                    }
                     
-                    if (string.IsNullOrEmpty(www.error)) File.WriteAllBytes(dbPath, www.bytes);
-                    else Debug.LogError("www error " + www.error);
-                }
-#elif UNITY_IOS
+//                    if (string.IsNullOrEmpty(www.error)) File.WriteAllBytes(dbPath, www.bytes);
+//                    else Debug.LogError("www error " + www.error);
+//                }
+//#elif UNITY_IOS
                 
-                File.Copy(Path.Combine(Application.streamingAssetsPath, InDbName), dbPath, true);
-#endif
-        }
-             return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
-#endif
-        }
+//                File.Copy(Path.Combine(Application.streamingAssetsPath, InDbName), dbPath, true);
+//#endif
+//        }
+//             return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
+//#endif
+        //}
 
         //        /// <summary>
         //        /// If there is no database in the persistentDataPath directory,

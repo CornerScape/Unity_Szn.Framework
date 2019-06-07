@@ -54,8 +54,8 @@ namespace SznFramework.Editor.SQLite3Creator
                 .Append(" * --->If you need to modify, please place the custom code between <Self Code Begin> and <Self Code End>.\n")
                 .Append(" *                                                                                    --szn\n")
                 .Append(" */\n\n")
-                .Append("using Framework.Reflection.SQLite3Helper;\n")
-                .Append("using Framework.Reflection.Sync;\n")
+                .Append("using SznFramework.SQLite3Helper;\n")
+                .Append("using SznFramework.Sync;\n")
                 .Append("\n\n")
                 .Append("namespace SQLite3TableDataTmp\n")
                 .Append("{\n");

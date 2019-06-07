@@ -1,7 +1,6 @@
 ﻿using NPOI.SS.UserModel;
 using System.Text;
 using SznFramework.SQLite3Helper;
-using UnityEngine;
 
 namespace SznFramework.Editor.SQLite3Creator
 {
@@ -9,9 +8,7 @@ namespace SznFramework.Editor.SQLite3Creator
     {
         public static void Creator(ref TableData InTableData, string InDatabasePath)
         {
-            string path = Application.dataPath + "/" + InDatabasePath;
-
-            SQLite3Operate handle = new SQLite3Operate(path, SQLite3OpenFlags.Create | SQLite3OpenFlags.ReadWrite);
+            SQLite3Operate handle = new SQLite3Operate(InDatabasePath, SQLite3OpenFlags.Create | SQLite3OpenFlags.ReadWrite);
 
             StringBuilder sb = new StringBuilder(256);
 

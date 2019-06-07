@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Sqlite3Data
   m_EditorClassIdentifier: 
   AllData:
-  - Name: Static.db
-    LocalName: 
-    Md5: 
+  - Directory: 
+    Name: Static.db
+    LocalName: f2cadf1ff6ffe2a765323b22570c4b90
+    Md5: 0fce87fa34f9e88427015a0e48e1013c

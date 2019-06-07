@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SznFramework.Excel.Editor;
+using SznFramework.Editor.Excel;
 using SznFramework.SQLite3Helper;
+using SznFramework.UtilPackage.Editor;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -20,74 +21,8 @@ namespace SznFramework.Editor.SQLite3Creator
         private bool isSingleFile, preSelect;
         private TableData[][] tableData, preTableData;
         private int sheetLength, rowLength, columnLength;
-        private class PathConfig
-        {
-            private readonly string dataPath;
-            private string excelPath;
-            private readonly string excelPrefKey;
-            public string ExcelPath
-            {
-                get
-                {
-                    return string.IsNullOrEmpty(excelPath) ? EditorPrefs.GetString(excelPrefKey, "") : excelPath;
-                }
-
-                set
-                {
-                    excelPath = value.Replace(dataPath, string.Empty);
-                    EditorPrefs.SetString(excelPrefKey, excelPath);
-                }
-            }
-
-            private string scriptPath;
-            private readonly string scriptPrefKey;
-            public string ScriptPath
-            {
-                get
-                {
-                    return string.IsNullOrEmpty(scriptPath) ? EditorPrefs.GetString(scriptPrefKey, "") : scriptPath;
-                }
-
-                set
-                {
-                    scriptPath = value.Replace(dataPath, string.Empty);
-                    EditorPrefs.SetString(scriptPrefKey, scriptPath);
-                }
-            }
-
-            private string dbPath;
-            private readonly string dbPrefKey;
-            public string DbPath
-            {
-                get
-                {
-                    return string.IsNullOrEmpty(dbPath) ? EditorPrefs.GetString(dbPrefKey, "") : dbPath;
-                }
-
-                set
-                {
-                    dbPath = value.Replace(dataPath, string.Empty);
-                    EditorPrefs.SetString(dbPrefKey, dbPath);
-                }
-            }
-
-            public PathConfig(string InDataPath, string InExcelKey, string InScriptKey, string InDatabaseKey)
-            {
-                dataPath = InDataPath;
-
-                excelPrefKey = InExcelKey;
-                excelPath = EditorPrefs.GetString(excelPrefKey, string.Empty);
-
-                scriptPrefKey = InScriptKey;
-                scriptPath = EditorPrefs.GetString(scriptPrefKey, string.Empty);
-
-                dbPrefKey = InDatabaseKey;
-                dbPath = EditorPrefs.GetString(dbPrefKey, string.Empty);
-            }
-        }
 
         private string dataPath;
-        private PathConfig config, singlePathConfig, multiPathConfig;
 
         [MenuItem("Framework/Database/SQLite3 Window %&z")]
         private static void Init()
@@ -113,15 +48,20 @@ namespace SznFramework.Editor.SQLite3Creator
         //    AssetDatabase.Refresh();
         //}
 
+        private string excelPath, excelFolder, scriptFolder, dbPath;
+
         private void OnEnable()
         {
-            dataPath = Application.dataPath.Replace("\\", "/");
+            dataPath = Application.dataPath;
+            dataPath = dataPath.Substring(0, dataPath.Length - "Assets".Length);
 
-            singlePathConfig = new PathConfig(dataPath, "SingleExcelPathPrefKey", "SingleScriptPathPrefKey", "SingleDbPathPrefKey");
-            multiPathConfig = new PathConfig(dataPath, "MultiExcelPathPrefKey", "MultiScriptPathPrefKey", "MultiDbPathPrefKey");
-
-            selectPrefKey = "SingleOrMultiSelectPrefKey";
+            selectPrefKey = string.Format("{0}SingleOrMultiSelectPrefKey", EditorTools.GetCompanyName());
             isSingleFile = preSelect = EditorPrefs.GetBool(selectPrefKey, true);
+
+            excelPath = SQLite3Path.GetSingleExcelPath();
+            excelFolder = SQLite3Path.GetExcelFolder();
+            scriptFolder = SQLite3Path.GetScriptSaveFolder();
+            dbPath = SQLite3Path.GetDbSavePath();
 
             centerTittleStyle = new GUIStyle
             {
@@ -351,70 +291,40 @@ namespace SznFramework.Editor.SQLite3Creator
                     {
                         GUILayout.BeginHorizontal();
                         {
-                            singlePathConfig.ExcelPath = EditorGUILayout.TextField("Excel Path", singlePathConfig.ExcelPath, GUILayout.Width(440));
+                            excelPath = EditorGUILayout.TextField("Excel Path", excelPath, GUILayout.Width(440));
                             if (GUILayout.Button("Select", GUILayout.MaxWidth(88)))
                             {
-                                string singlePath = singlePathConfig.ExcelPath;
-                                int index = singlePath.LastIndexOf("/", StringComparison.Ordinal);
-                                string path = -1 == index ? singlePath : singlePath.Substring(0, index);
-                                path = EditorUtility.OpenFilePanel("Open Excel Path", path, "xlsx,xls");
-                                if (!string.IsNullOrEmpty(path))
-                                {
-                                    if (path.Contains(dataPath))
-                                    {
-                                        singlePath = path.Replace(dataPath, "Assets");
-                                    }
-                                    else
-                                    {
-                                        Debug.LogWarning("Can not open the folder out of the project path!");
-                                        singlePath = path;
-                                    }
-
-                                    singlePathConfig.ExcelPath = singlePath;
-                                }
+                                excelPath = SQLite3Path.SelectExcelPath();
                             }
                         }
                         GUILayout.EndHorizontal();
 
                         if (GUILayout.Button("Preview"))
                         {
-                            if (string.IsNullOrEmpty(singlePathConfig.ExcelPath))
+                            if (string.IsNullOrEmpty(excelPath))
                                 EditorUtility.DisplayDialog("Tips", "Please select an excel file first.", "OK");
                             else
-                                LoadExcel(dataPath + singlePathConfig.ExcelPath.Replace("Assets", string.Empty));
+                                LoadExcel(Path.Combine(dataPath, excelPath));
                         }
                     }
                     else
                     {
                         GUILayout.BeginHorizontal();
                         {
-                            multiPathConfig.ExcelPath = EditorGUILayout.TextField("Excel Directory", multiPathConfig.ExcelPath, GUILayout.Width(440));
+                            excelFolder = EditorGUILayout.TextField("Excel Directory", excelFolder, GUILayout.Width(440));
                             if (GUILayout.Button("Select", GUILayout.MaxWidth(88)))
                             {
-                                string multiPath = multiPathConfig.ExcelPath;
-                                string path = EditorUtility.OpenFolderPanel("Open Excel Directory", multiPath, "");
-                                if (!string.IsNullOrEmpty(path))
-                                {
-                                    if (path.Contains(dataPath))
-                                    {
-                                        multiPath = path.Replace(dataPath, "Assets");
-                                        multiPathConfig.ExcelPath = multiPath;
-                                    }
-                                    else
-                                    {
-                                        EditorUtility.DisplayDialog("Warning", "Can not open the folder out of the project path!", "OK");
-                                    }
-                                }
+                                excelFolder = SQLite3Path.SelectExcelFolder();
                             }
                         }
                         GUILayout.EndHorizontal();
 
                         if (GUILayout.Button("Preview"))
                         {
-                            if (string.IsNullOrEmpty(multiPathConfig.ExcelPath))
+                            if (string.IsNullOrEmpty(excelFolder))
                                 EditorUtility.DisplayDialog("Tips", "Please select a directory where excel is stored.", "OK");
                             else
-                                LoadExcelDirectory(dataPath + multiPathConfig.ExcelPath.Replace("Assets", string.Empty));
+                                LoadExcelDirectory(Path.Combine(dataPath, excelFolder));
                         }
                     }
                 }
@@ -423,52 +333,25 @@ namespace SznFramework.Editor.SQLite3Creator
                 if (null != tableData)
                 {
                     sheetLength = tableData.Length;
-                    config = isSingleFile ? singlePathConfig : multiPathConfig;
+                    //config = isSingleFile ? singlePathConfig : multiPathConfig;
                     EditorGUILayout.BeginVertical("box");
                     {
                         GUILayout.BeginHorizontal();
                         {
-                            config.DbPath = EditorGUILayout.TextField("Database Save Path", config.DbPath, GUILayout.Width(440));
+                            dbPath = EditorGUILayout.TextField("Database Save Path", dbPath, GUILayout.Width(440));
                             if (GUILayout.Button("Select", GUILayout.MaxWidth(88)))
                             {
-                                string path = config.DbPath;
-                                int index = path.LastIndexOf("/", StringComparison.Ordinal);
-                                path = -1 == index ? path : path.Substring(0, index);
-                                path = EditorUtility.SaveFilePanel("Database Save Path", path, "Database", "db");
-                                if (!string.IsNullOrEmpty(path))
-                                {
-                                    if (path.Contains(dataPath))
-                                    {
-                                        config.DbPath = path.Replace(dataPath, "Assets");
-                                    }
-                                    else
-                                    {
-                                        Debug.LogWarning("Can not open the folder out of the project path!");
-                                        config.DbPath = path;
-                                    }
-                                }
+                                dbPath = SQLite3Path.SelectDbSavePath();
                             }
                         }
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
                         {
-                            config.ScriptPath = EditorGUILayout.TextField("Script Save Directory", config.ScriptPath, GUILayout.Width(440));
+                            scriptFolder = EditorGUILayout.TextField("Script Save Directory", scriptFolder, GUILayout.Width(440));
                             if (GUILayout.Button("Select", GUILayout.MaxWidth(88)))
                             {
-                                string path = EditorUtility.OpenFolderPanel("Script Save Directory", config.ScriptPath, "");
-                                if (!string.IsNullOrEmpty(path))
-                                {
-                                    if (path.Contains(dataPath))
-                                    {
-                                        config.ScriptPath = path.Replace(dataPath, "Assets") + "/";
-                                    }
-                                    else
-                                    {
-                                        Debug.LogWarning("Can not open the folder out of the project path!");
-                                        config.ScriptPath = path + "/";
-                                    }
-                                }
+                                scriptFolder = SQLite3Path.SelectScriptSaveFolder();
                             }
                         }
                         GUILayout.EndHorizontal();
@@ -481,20 +364,18 @@ namespace SznFramework.Editor.SQLite3Creator
                             {
                                 try
                                 {
-                                    if (string.IsNullOrEmpty(config.DbPath))
+                                    if (string.IsNullOrEmpty(dbPath))
                                     {
                                         EditorUtility.DisplayDialog("Tips", "Please select the storage location of the database.", "OK");
                                     }
                                     else
                                     {
-                                        if (string.IsNullOrEmpty(config.ScriptPath))
+                                        if (string.IsNullOrEmpty(scriptFolder))
                                         {
                                             EditorUtility.DisplayDialog("Tips", "Please select the storage location of the script.", "OK");
                                         }
                                         else
                                         {
-                                            string dbPath = config.DbPath.Remove(0, 7);
-                                            //SQLite3Creator.DeleteDatabase(dbPath);
                                             for (int i = 0; i < sheetLength; i++)
                                             {
                                                 rowLength = tableData[i].Length;
@@ -507,11 +388,11 @@ namespace SznFramework.Editor.SQLite3Creator
                                                         {
                                                             progressValue = .5f;
                                                             EditorUtility.DisplayProgressBar("Convert excel to C# script...", "Convert excel named: " + tableData[i][j].TableName, i * progressValue / sheetLength);
-                                                            ScriptWriter.Writer(multiPathConfig.ScriptPath + tableData[i][j].TableName + ".cs", ref tableData[i][j]);
+                                                            ScriptWriter.Writer(string.Format("{0}{1}.cs",Path.Combine(dataPath, scriptFolder), tableData[i][j].TableName), ref tableData[i][j]);
                                                         }
                                                         EditorUtility.DisplayProgressBar("Convert excel to SQLite3 table...", "Convert excel named: " + tableData[i][j].TableName, i * .5f / sheetLength);
 
-                                                        SQLite3Creator.Creator(ref tableData[i][j], dbPath);
+                                                        SQLite3Creator.Creator(ref tableData[i][j],Path.Combine(dataPath, dbPath));
                                                     }
                                                 }
                                             }
@@ -677,20 +558,20 @@ namespace SznFramework.Editor.SQLite3Creator
                                                 {
                                                     try
                                                     {
-                                                        if (string.IsNullOrEmpty(config.DbPath))
+                                                        if (string.IsNullOrEmpty(dbPath))
                                                         {
                                                             EditorUtility.DisplayDialog("Tips", "Please select the storage location of the database.", "OK");
                                                         }
                                                         else
                                                         {
-                                                            if (string.IsNullOrEmpty(config.ScriptPath))
+                                                            if (string.IsNullOrEmpty(scriptFolder))
                                                             {
                                                                 EditorUtility.DisplayDialog("Tips", "Please select the storage location of the script.", "OK");
                                                             }
                                                             else
                                                             {
-                                                                if (tableData[i][j].IsNeedCreateScript) ScriptWriter.Writer(config.ScriptPath + tableData[i][j].TableName + ".cs", ref tableData[i][j]);
-                                                                SQLite3Creator.Creator(ref tableData[i][j], config.DbPath.Remove(0, 7));
+                                                                if (tableData[i][j].IsNeedCreateScript) ScriptWriter.Writer(string.Format("{0}{1}.cs", Path.Combine(dataPath, scriptFolder), tableData[i][j].TableName), ref tableData[i][j]);
+                                                                SQLite3Creator.Creator(ref tableData[i][j], Path.Combine(dataPath, dbPath));
 
                                                                 EditorUtility.DisplayDialog("Tips", "Convert excel to SQLite3 table finished.", "OK");
 
