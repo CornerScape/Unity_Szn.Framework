@@ -6,10 +6,10 @@ namespace SznFramework.SQLite3Helper
 {
     public static class SQLite3Factory
     {
-        //        /// <summary>
-        //        /// If there is no database in the persistentDataPath directory, or database in the persistentDataPath directory md5 not match original,
-        //        /// Then copy the database from the streamingAssetsPath directory to the persistentDataPath directory and open the database in read-only mode
-        //        /// </summary>
+        /// <summary>
+        /// If there is no database in the persistentDataPath directory, or database in the persistentDataPath directory md5 not match original,
+        /// Then copy the database from the streamingAssetsPath directory to the persistentDataPath directory and open the database in read-only mode
+        /// </summary>
         /// <param name="InDbName">The name of the SQLite3 database.</param>
         /// <returns>Operation SQLite3 database handle.</returns>
         public static SQLite3Operate OpenToRead(string InDbName)
@@ -75,7 +75,7 @@ namespace SznFramework.SQLite3Helper
 #endif
             return new SQLite3Operate(dbPath, SQLite3OpenFlags.ReadOnly);
         }
-        
+
         /// <summary>
         /// Open a SQLite3 database that exists in the persistentDataPath directory as read-write,
         /// If the database does not exist, create an empty database.

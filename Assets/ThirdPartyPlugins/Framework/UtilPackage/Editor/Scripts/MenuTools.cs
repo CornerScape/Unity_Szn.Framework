@@ -1,91 +1,57 @@
-﻿using UnityEditor;
+﻿using SznFramework.Editor.ScriptingDefine;
+using UnityEditor;
 using UnityEngine;
 
-namespace SznFramework.Editor
+namespace SznFramework.Editor.Menu
 {
-    public class MenuTools
+    public enum MenuPriority
     {
+        LocalData = 50,
+        OpenFile = 100,
+        RuntimeMode = 200,
+        DataBase = 300,
+        Test = 1000
+    }
+
+    public static class MenuTools
+    {
+        public const  string MENU_ROOT_NAME = "Framework/";
+        #region Local data
+        [MenuItem(MENU_ROOT_NAME +"Local Player Data/Clear PlayerPrefs", priority = (int)MenuPriority.LocalData)]
+        static void ClearPlayPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
+
+        //[MenuItem(MENU_ROOT_NAME + "Local Player Data/Clear EditorPrefs", priority = (int)MenuPriority.LocalData)]
+        //static void ClearEditorPrefs()
+        //{
+        //    EditorPrefs.DeleteKey(ScriptingDefineConfig.ALL_DEFINE_PREFS_KEY_S);
+        //    EditorPrefs.DeleteKey(ScriptingDefineConfig.DEFINE_GROUP_PREFS_KEY_S);
+        //}
+        #endregion
+
+
         #region Open folder
-        [MenuItem("Framework/Open Files/PersistentData Folder", priority = 50)]
+        private const string OPEN_FILE_MENU_NAME_S = MENU_ROOT_NAME + "Open File/";
+
+        [MenuItem(OPEN_FILE_MENU_NAME_S  + "PersistentData Folder", priority = (int)MenuPriority.OpenFile)]
         static void OpenPersistentData()
         {
             System.Diagnostics.Process.Start(Application.persistentDataPath);
         }
 
-        [MenuItem("Framework/Open Files/Assets Folder", priority = 53)]
+        [MenuItem(OPEN_FILE_MENU_NAME_S + "Assets Folder", priority = (int)MenuPriority.OpenFile + 1)]
         static void OpenAssets()
         {
             System.Diagnostics.Process.Start(Application.dataPath);
         }
 
-        [MenuItem("Framework/Open Files/StreamingAssets Folder", priority = 55)]
+        [MenuItem(OPEN_FILE_MENU_NAME_S  +"StreamingAssets Folder", priority = (int)MenuPriority.OpenFile + 2)]
         static void OpenStreamingAssets()
         {
             System.Diagnostics.Process.Start(Application.streamingAssetsPath);
         }
-        #endregion
-
-        #region Local data
-        [MenuItem("Framework/Local Player Data/Clear PlayerPrefs", priority = 25)]
-        static void ClearPlayPrefs()
-        {
-            PlayerPrefs.DeleteAll();
-        }
-        #endregion
-
-        #region Run Mode
-
-        private static string[] debugMacroDef = { "AD_SDK", "FB_SDK", "FTDSdk", "IAP_SDK", "DEBUG_MODE" };
-        // private static string[] releaseMacroDef = { "AD_SDK", "FB_SDK", "FTDSdk", "IAP_SDK" };
-        // private static string editorMacroDef = string.Empty;
-
-        [MenuItem("Framework/Runtime Mode/Debug", true, priority = 70)]
-        static bool IsDebugRuntimeMode()
-        {
-            string[] def = EditorUserBuildSettings.activeScriptCompilationDefines;
-            int len = def.Length;
-            if (len == debugMacroDef.Length)
-            {
-                for (int i = 0; i < len; i++)
-                {
-                    bool exist = false;
-                    for (int j = 0; j < len; j++)
-                    {
-                        if (def[i] == debugMacroDef[j])
-                        {
-                            exist = true;
-                            break;
-                        }
-
-                        if (!exist) return true;
-                    }
-                }
-
-                return false;
-            }
-
-            return true;
-        }
-
-        [MenuItem("Framework/Runtime Mode/Debug", false, priority = 70)]
-        static void SetDebugRuntimeMode()
-        {
-            //EditorUserSettings.
-            //EditorUserBuildSettings.activeScriptCompilationDefines = debugMacroDef;
-        }
-
-        [MenuItem("Framework/Runtime Mode/Release", priority = 73)]
-        static void SetReleaseRuntimeMode()
-        {
-            PlayerPrefs.DeleteAll();
-        }
-
-        [MenuItem("Framework/Runtime Mode/Debug", priority = 75)]
-        static void SwitchRuntimeMode()
-        {
-            PlayerPrefs.DeleteAll();
-        }
-
         #endregion
     }
 }

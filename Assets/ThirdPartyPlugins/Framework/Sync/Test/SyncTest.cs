@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNIT_TEST
+using System;
 using UnityEngine;
 
 public class SyncTest : MonoBehaviour
@@ -173,3 +174,4 @@ public class SyncTest : MonoBehaviour
         }
     }
 }
+#endif

@@ -23,9 +23,8 @@ namespace SznFramework.Editor.SQLite3Creator
         private int sheetLength, rowLength, columnLength;
 
         private string dataPath;
-
-        [MenuItem("Framework/Database/SQLite3 Window %&z")]
-        private static void Init()
+        
+        public static void Init()
         {
             window = CreateInstance<SQLite3Window>();
             //window.LoadExcel(Application.dataPath);
