@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SznFramework.UtilPackage
 {
-    //FB_SDK;AD_SDK;IAP_SDK;FTDSdk;GM_MODE;LOG_INFO;GERMAN
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T instance;
