@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace SznFramework.SQLite3Helper
+namespace Szn.Framework.SQLite3Helper
 {
     public static class SQLite3Factory
     {
@@ -43,7 +43,7 @@ namespace SznFramework.SQLite3Helper
             bool needUpdate = true;
             if (File.Exists(dbPath))
             {
-                if (SznFramework.UtilPackage.MD5Tools.GetFileMd5(dbPath) == singleData.Md5) needUpdate = false;
+                if (Szn.Framework.UtilPackage.MD5Tools.GetFileMd5(dbPath) == singleData.Md5) needUpdate = false;
             }
 
             if (needUpdate)

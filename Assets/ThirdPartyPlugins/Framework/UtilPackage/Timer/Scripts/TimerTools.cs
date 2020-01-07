@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SznFramework.UtilPackage
+namespace Szn.Framework.UtilPackage
 {
     public class TimerTools : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 
-namespace SznFramework.UtilPackage.Editor
+namespace Szn.Framework.UtilPackage.Editor
 {
     public static class Dialog
     {

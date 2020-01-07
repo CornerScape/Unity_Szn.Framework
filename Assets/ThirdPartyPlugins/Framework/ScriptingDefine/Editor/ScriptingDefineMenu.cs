@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using SznFramework.Editor.Menu;
+using Szn.Framework.Editor.Menu;
 using UnityEditor;
 using UnityEngine;
 
-namespace SznFramework.Editor.ScriptingDefine
+namespace Szn.Framework.Editor.ScriptingDefine
 {
     public static class ScriptingDefineMenu
     {

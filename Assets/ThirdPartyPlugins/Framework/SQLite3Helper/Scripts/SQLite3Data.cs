@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SznFramework.SQLite3Helper
+namespace Szn.Framework.SQLite3Helper
 {
     [Serializable]
     public class SQLite3SingleData

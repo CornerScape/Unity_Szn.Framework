@@ -34,3 +34,11 @@ sysinfo.txt
 # Builds
 *.apk
 AndroidProject/
+
+#res
+Assets/Bundle
+Assets/StreamingAssets
+
+#submodule
+Assets/ThirdPartyPlugins/AudioManager
+Assets/ThirdPartyPlugins/UtilPackage

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace SznFramework.SQLite3Helper
+namespace Szn.Framework.SQLite3Helper
 {
     public static class SQLite3Utility
     {

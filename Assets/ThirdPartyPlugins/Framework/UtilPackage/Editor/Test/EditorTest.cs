@@ -1,5 +1,5 @@
 ﻿#if UNIT_TEST && UNITY_EDITOR
-using SznFramework.UtilPackage.Editor;
+using Szn.Framework.UtilPackage.Editor;
 using UnityEditor;
 using UnityEngine;
 

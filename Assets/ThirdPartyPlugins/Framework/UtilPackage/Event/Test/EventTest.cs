@@ -1,6 +1,6 @@
 ﻿#if UNIT_TEST
 using System;
-using SznFramework.UtilPackage.Event;
+using Szn.Framework.UtilPackage.Event;
 using UnityEngine;
 
 public class EventTest : MonoBehaviour

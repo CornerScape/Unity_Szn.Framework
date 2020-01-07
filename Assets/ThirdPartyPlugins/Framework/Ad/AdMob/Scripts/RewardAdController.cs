@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using UnityEngine;
 
-namespace SznFramework.AdMob
+namespace Szn.Framework.AdMob
 {
     public class RewardAdController
     {

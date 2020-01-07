@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SznFramework.SQLite3Helper
+namespace Szn.Framework.SQLite3Helper
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class SQLite3ConstraintAttribute : Attribute

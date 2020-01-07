@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using SznFramework.SQLite3Helper;
+using Szn.Framework.SQLite3Helper;
 
-namespace SznFramework.Editor.SQLite3Creator
+namespace Szn.Framework.Editor.SQLite3Creator
 {
     public class ScriptWriter
     {
@@ -54,8 +54,8 @@ namespace SznFramework.Editor.SQLite3Creator
                 .Append(" * --->If you need to modify, please place the custom code between <Self Code Begin> and <Self Code End>.\n")
                 .Append(" *                                                                                    --szn\n")
                 .Append(" */\n\n")
-                .Append("using SznFramework.SQLite3Helper;\n")
-                .Append("using SznFramework.Sync;\n")
+                .Append("using Szn.Framework.SQLite3Helper;\n")
+                .Append("using Szn.Framework.Sync;\n")
                 .Append("\n\n")
                 .Append("namespace SQLite3TableDataTmp\n")
                 .Append("{\n");

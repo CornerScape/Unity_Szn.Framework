@@ -2,7 +2,7 @@
 using System.Reflection;
 using UnityEngine;
 
-namespace SznFramework.Sync
+namespace Szn.Framework.Sync
 {
     public abstract class SyncBase
     {

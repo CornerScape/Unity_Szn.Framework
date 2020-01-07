@@ -3,7 +3,7 @@ using GoogleMobileAds.Api;
 using System;
 using UnityEngine;
 
-namespace SznFramework.AdMob
+namespace Szn.Framework.AdMob
 {
     public class InterstitialAdController
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SznFramework.UtilPackage.Event
+namespace Szn.Framework.UtilPackage.Event
 {
     public enum EventDelegateType : byte
     {
@@ -14,16 +14,17 @@ namespace SznFramework.UtilPackage.Event
 
     public class EventDelegate
     {
-        public readonly Delegate CusDelegate;
+        private readonly Delegate cusDelegate;
+
         public readonly EventDelegateType Type;
-        public readonly bool IsSingleTime;
+        private readonly bool isSingleTime;
         public EventDelegate PrevNode, NextNode;
 
         private EventDelegate(Delegate InCusDelegate, EventDelegateType InType, bool InIsSingleTime)
         {
-            CusDelegate = InCusDelegate;
+            cusDelegate = InCusDelegate;
             Type = InType;
-            IsSingleTime = InIsSingleTime;
+            isSingleTime = InIsSingleTime;
             PrevNode = null;
             NextNode = null;
         }
@@ -61,7 +62,7 @@ namespace SznFramework.UtilPackage.Event
 
         private EventDelegate MoveNext()
         {
-            if (IsSingleTime)
+            if (isSingleTime)
             {
                 if (NextNode == null) PrevNode.NextNode = null;
                 else
@@ -78,13 +79,11 @@ namespace SznFramework.UtilPackage.Event
         {
             if (Type == EventDelegateType.None)
             {
-                ((Action) CusDelegate).Invoke();
+                ((Action) cusDelegate).Invoke();
                 return MoveNext();
             }
 
-            Debug.LogError(
-                string.Format("Invoke event error, parameters are not match.\nRegister event need {0} parameters.",
-                    Type));
+            Debug.LogError($"Invoke event error, parameters are not match.\nRegister event need {Type} parameters.");
 
             return null;
         }
@@ -93,13 +92,11 @@ namespace SznFramework.UtilPackage.Event
         {
             if (Type == EventDelegateType.One)
             {
-                ((Action<T>) CusDelegate).Invoke(InParam);
+                ((Action<T>) cusDelegate).Invoke(InParam);
                 return MoveNext();
             }
 
-            Debug.LogError(
-                string.Format("Invoke event error, parameters are not match.\nRegister event need {0} parameters.",
-                    Type));
+            Debug.LogError($"Invoke event error, parameters are not match.\nRegister event need {Type} parameters.");
 
             return null;
         }
@@ -108,13 +105,12 @@ namespace SznFramework.UtilPackage.Event
         {
             if (Type == EventDelegateType.Two)
             {
-                ((Action<T, T1>) CusDelegate).Invoke(InParam, InParam1);
+                ((Action<T, T1>) cusDelegate).Invoke(InParam, InParam1);
                 return MoveNext();
             }
 
             Debug.LogError(
-                string.Format("Invoke event error, parameters are not match.\nRegister event need {0} parameters.",
-                    Type));
+                $"Invoke event error, parameters are not match.\nRegister event need {Type} parameters.");
 
             return null;
         }
@@ -123,13 +119,12 @@ namespace SznFramework.UtilPackage.Event
         {
             if (Type == EventDelegateType.Three)
             {
-                ((Action<T, T1, T2>) CusDelegate).Invoke(InParam, InParam1, InParam2);
+                ((Action<T, T1, T2>) cusDelegate).Invoke(InParam, InParam1, InParam2);
                 return MoveNext();
             }
 
             Debug.LogError(
-                string.Format("Invoke event error, parameters are not match.\nRegister event need {0} parameters.",
-                    Type));
+                $"Invoke event error, parameters are not match.\nRegister event need {Type} parameters.");
 
             return null;
         }
@@ -138,20 +133,19 @@ namespace SznFramework.UtilPackage.Event
         {
             if (Type == EventDelegateType.Four)
             {
-                ((Action<T, T1, T2, T3>) CusDelegate).Invoke(InParam, InParam1, InParam2, InParam3);
+                ((Action<T, T1, T2, T3>) cusDelegate).Invoke(InParam, InParam1, InParam2, InParam3);
                 return MoveNext();
             }
 
             Debug.LogError(
-                string.Format("Invoke event error, parameters are not match.\nRegister event need {0} parameters.",
-                    Type));
+                $"Invoke event error, parameters are not match.\nRegister event need {Type} parameters.");
 
             return null;
         }
 
         public bool Equals(Delegate InDelegate, EventDelegateType InEventDelegateType)
         {
-            return Type == InEventDelegateType && CusDelegate == InDelegate;
+            return Type == InEventDelegateType && cusDelegate == InDelegate;
         }
     }
 }

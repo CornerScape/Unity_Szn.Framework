@@ -1,8 +1,8 @@
 ﻿#if UNIT_TEST
-using SznFramework.Ads;
+using Szn.Framework.Ads;
 using UnityEngine;
 
-namespace SznFramework.UnitTest
+namespace Szn.Framework.UnitTest
 {
     public class AdTest : MonoBehaviour
     {

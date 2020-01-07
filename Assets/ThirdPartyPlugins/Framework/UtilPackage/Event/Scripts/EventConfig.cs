@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SznFramework.UtilPackage.Event
+namespace Szn.Framework.UtilPackage.Event
 {
     public enum EventKey
     {

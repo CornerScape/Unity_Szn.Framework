@@ -2,11 +2,11 @@
 using NPOI.SS.UserModel;
 using System.IO;
 using System.Text;
-using SznFramework.SQLite3Helper;
+using Szn.Framework.SQLite3Helper;
 using UnityEditor;
 using UnityEngine;
 
-namespace SznFramework.Editor.SQLite3Creator
+namespace Szn.Framework.Editor.SQLite3Creator
 {
     public class SQLite3Creator
     {

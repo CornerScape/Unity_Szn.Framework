@@ -3,10 +3,10 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Collections.Generic;
 using System.IO;
-using SznFramework.UtilPackage.Editor;
+using Szn.Framework.UtilPackage.Editor;
 using UnityEditor;
 
-namespace SznFramework.Editor.Excel
+namespace Szn.Framework.Editor.Excel
 {
     public class ExcelReader
     {

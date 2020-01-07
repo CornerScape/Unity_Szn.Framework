@@ -1,7 +1,7 @@
 ﻿using NPOI.SS.UserModel;
-using SznFramework.SQLite3Helper;
+using Szn.Framework.SQLite3Helper;
 
-namespace SznFramework.Editor.SQLite3Creator
+namespace Szn.Framework.Editor.SQLite3Creator
 {
     public enum SQLite3ValueType
     {

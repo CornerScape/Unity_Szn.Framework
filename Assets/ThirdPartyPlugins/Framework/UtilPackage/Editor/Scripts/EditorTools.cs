@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace SznFramework.UtilPackage.Editor
+namespace Szn.Framework.UtilPackage.Editor
 {
     public static class EditorTools
     {

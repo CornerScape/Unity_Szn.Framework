@@ -1,4 +1,4 @@
-﻿namespace SznFramework.Editor.Excel
+﻿namespace Szn.Framework.Editor.Excel
 {
     public class ExcelConfig
     {

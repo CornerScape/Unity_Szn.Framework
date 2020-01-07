@@ -1,4 +1,4 @@
-namespace SznFramework.Ui
+namespace Szn.Framework.Ui
 {
     public class UiData
     {

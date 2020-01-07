@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SznFramework.Ui
+namespace Szn.Framework.Ui
 {
     public class UiBase : MonoBehaviour
     {

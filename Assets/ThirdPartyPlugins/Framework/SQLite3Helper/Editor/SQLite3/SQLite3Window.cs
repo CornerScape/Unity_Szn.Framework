@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SznFramework.Editor.Excel;
-using SznFramework.SQLite3Helper;
-using SznFramework.UtilPackage.Editor;
+using Szn.Framework.Editor.Excel;
+using Szn.Framework.SQLite3Helper;
+using Szn.Framework.UtilPackage.Editor;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace SznFramework.Editor.SQLite3Creator
+namespace Szn.Framework.Editor.SQLite3Creator
 {
     public class SQLite3Window : EditorWindow
     {

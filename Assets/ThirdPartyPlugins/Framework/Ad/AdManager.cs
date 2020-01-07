@@ -3,13 +3,13 @@
 //#endif
 
 using System;
-using SznFramework.UtilPackage;
+using Szn.Framework.UtilPackage;
 
 #if ADS_ADMOB
-using SznFramework.AdMob;
+using Szn.Framework.AdMob;
 #endif
 
-namespace SznFramework.Ads
+namespace Szn.Framework.Ads
 {
     public class AdManager : MonoSingleton<AdManager>
     {

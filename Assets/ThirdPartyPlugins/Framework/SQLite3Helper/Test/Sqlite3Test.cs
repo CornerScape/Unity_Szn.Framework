@@ -1,6 +1,6 @@
 ﻿#if UNIT_TEST
 using SQLite3TableDataTmp;
-using SznFramework.SQLite3Helper;
+using Szn.Framework.SQLite3Helper;
 using UnityEngine;
 
 public class Sqlite3Test : MonoBehaviour

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SznFramework.Sync
+namespace Szn.Framework.Sync
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class SyncAttribute : Attribute

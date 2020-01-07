@@ -1,7 +1,7 @@
-﻿using SznFramework.UtilPackage.Editor;
+﻿using Szn.Framework.UtilPackage.Editor;
 using UnityEngine;
 
-namespace SznFramework.Editor.SQLite3Creator
+namespace Szn.Framework.Editor.SQLite3Creator
 {
     public static class SQLite3Path
     {

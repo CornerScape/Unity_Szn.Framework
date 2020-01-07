@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SznFramework.UtilPackage
+namespace Szn.Framework.UtilPackage
 {
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {

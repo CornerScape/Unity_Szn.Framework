@@ -17,13 +17,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using SznFramework.Sync;
+using Szn.Framework.Sync;
 using UnityEngine;
 using UnityEngine.Assertions;
 using SQLite3DbHandle = System.IntPtr;
 using SQLite3Statement = System.IntPtr;
 
-namespace SznFramework.SQLite3Helper
+namespace Szn.Framework.SQLite3Helper
 {
     public class SQLite3Operate
     {

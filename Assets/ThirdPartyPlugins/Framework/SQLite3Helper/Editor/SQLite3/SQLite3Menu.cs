@@ -1,7 +1,7 @@
-﻿using SznFramework.Editor.Menu;
+﻿using Szn.Framework.Editor.Menu;
 using UnityEditor;
 
-namespace SznFramework.Editor.SQLite3Creator
+namespace Szn.Framework.Editor.SQLite3Creator
 {
     public static class SQLite3Menu
     {

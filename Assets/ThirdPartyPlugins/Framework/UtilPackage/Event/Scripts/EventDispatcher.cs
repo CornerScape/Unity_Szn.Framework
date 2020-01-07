@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SznFramework.UtilPackage.Event
+namespace Szn.Framework.UtilPackage.Event
 {
     public class EventDispatcher : Singleton<EventDispatcher>
     {
@@ -37,7 +37,7 @@ namespace SznFramework.UtilPackage.Event
 
         private void InvokeEventRegisterEvent(EventKey InEventKey)
         {
-            if (null != onEventRegister) onEventRegister.Invoke(InEventKey);
+            onEventRegister?.Invoke(InEventKey);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace SznFramework.UtilPackage.Event
 
         private void InvokeEventUnregisterEvent(EventKey InEventKey)
         {
-            if (null != onEventUnregister) onEventUnregister.Invoke(InEventKey);
+            onEventUnregister?.Invoke(InEventKey);
         }
 
         #endregion
@@ -65,8 +65,7 @@ namespace SznFramework.UtilPackage.Event
 
         public void Register(EventKey InEventKey, EventDelegate InEventDelegate)
         {
-            EventDelegate cusDelegate;
-            if (router.TryGetValue(InEventKey, out cusDelegate))
+            if (router.TryGetValue(InEventKey, out var cusDelegate))
             {
                 if (null == cusDelegate) router[InEventKey] = InEventDelegate;
                 else
@@ -131,13 +130,12 @@ namespace SznFramework.UtilPackage.Event
 
         private void Unregister(EventKey InEventKey, Delegate InDelegate, EventDelegateType InEventDelegateType)
         {
-            EventDelegate eventDelegate;
-            if (router.TryGetValue(InEventKey, out eventDelegate))
+            if (router.TryGetValue(InEventKey, out var eventDelegate))
             {
                 eventDelegate = eventDelegate.NextNode;
                 if (null == eventDelegate)
                 {
-                    Debug.LogError(string.Format("Unregister event named {0}.", InEventKey));
+                    Debug.LogError($"Unregister event named {InEventKey}.");
                 }
                 else
                 {
@@ -195,14 +193,13 @@ namespace SznFramework.UtilPackage.Event
 
         public void Trigger(EventKey InEventKey)
         {
-            EventDelegate eventDelegate;
-            if (router.TryGetValue(InEventKey, out eventDelegate))
+            if (router.TryGetValue(InEventKey, out var eventDelegate))
             {
                 //he first node is the default empty node.
                 eventDelegate = eventDelegate.NextNode;
                 if (null == eventDelegate)
                 {
-                    Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+                    Debug.LogWarning($"No event named {InEventKey} is registered");
                 }
                 else
                 {
@@ -212,19 +209,18 @@ namespace SznFramework.UtilPackage.Event
                     } while (eventDelegate != null);
                 }
             }
-            else Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+            else Debug.LogWarning($"No event named {InEventKey} is registered");
         }
 
         public void Trigger<T>(EventKey InEventKey, T InParam)
         {
-            EventDelegate eventDelegate;
-            if (router.TryGetValue(InEventKey, out eventDelegate))
+            if (router.TryGetValue(InEventKey, out var eventDelegate))
             {
                 //he first node is the default empty node.
                 eventDelegate = eventDelegate.NextNode;
                 if (null == eventDelegate)
                 {
-                    Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+                    Debug.LogWarning($"No event named {InEventKey} is registered");
                 }
                 else
                 {
@@ -234,19 +230,18 @@ namespace SznFramework.UtilPackage.Event
                     } while (eventDelegate != null);
                 }
             }
-            else Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+            else Debug.LogWarning($"No event named {InEventKey} is registered");
         }
 
         public void Trigger<T, T1>(EventKey InEventKey, T InParam, T1 InParam1)
         {
-            EventDelegate eventDelegate;
-            if (router.TryGetValue(InEventKey, out eventDelegate))
+            if (router.TryGetValue(InEventKey, out var eventDelegate))
             {
                 //he first node is the default empty node.
                 eventDelegate = eventDelegate.NextNode;
                 if (null == eventDelegate)
                 {
-                    Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+                    Debug.LogWarning($"No event named {InEventKey} is registered");
                 }
                 else
                 {
@@ -256,19 +251,18 @@ namespace SznFramework.UtilPackage.Event
                     } while (eventDelegate != null);
                 }
             }
-            else Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+            else Debug.LogWarning($"No event named {InEventKey} is registered");
         }
 
         public void Trigger<T, T1, T2>(EventKey InEventKey, T InParam, T1 InParam1, T2 InParam2)
         {
-            EventDelegate eventDelegate;
-            if (router.TryGetValue(InEventKey, out eventDelegate))
+            if (router.TryGetValue(InEventKey, out var eventDelegate))
             {
                 //he first node is the default empty node.
                 eventDelegate = eventDelegate.NextNode;
                 if (null == eventDelegate)
                 {
-                    Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+                    Debug.LogWarning($"No event named {InEventKey} is registered");
                 }
                 else
                 {
@@ -278,19 +272,18 @@ namespace SznFramework.UtilPackage.Event
                     } while (eventDelegate != null);
                 }
             }
-            else Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+            else Debug.LogWarning($"No event named {InEventKey} is registered");
         }
 
         public void Trigger<T, T1, T2, T3>(EventKey InEventKey, T InParam, T1 InParam1, T2 InParam2, T3 InParam3)
         {
-            EventDelegate eventDelegate;
-            if (router.TryGetValue(InEventKey, out eventDelegate))
+            if (router.TryGetValue(InEventKey, out var eventDelegate))
             {
                 //he first node is the default empty node.
                 eventDelegate = eventDelegate.NextNode;
                 if (null == eventDelegate)
                 {
-                    Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+                    Debug.LogWarning($"No event named {InEventKey} is registered");
                 }
                 else
                 {
@@ -300,7 +293,7 @@ namespace SznFramework.UtilPackage.Event
                     } while (eventDelegate != null);
                 }
             }
-            else Debug.LogWarning(string.Format("No event named {0} is registered", InEventKey));
+            else Debug.LogWarning($"No event named {InEventKey} is registered");
         }
 
         #endregion

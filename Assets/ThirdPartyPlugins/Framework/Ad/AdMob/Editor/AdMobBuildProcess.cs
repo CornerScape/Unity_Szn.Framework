@@ -1,12 +1,12 @@
 ﻿#if ADS_ADMOB
 using System.IO;
 using System.Xml;
-using SznFramework.Ads;
+using Szn.Framework.Ads;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 
-namespace SznFramework.AdMob
+namespace Szn.Framework.AdMob
 {
     public class AdMobBuildProcess : IPreprocessBuild, IPostprocessBuild
     {

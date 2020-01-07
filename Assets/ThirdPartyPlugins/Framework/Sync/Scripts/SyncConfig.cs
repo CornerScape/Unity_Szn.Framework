@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SznFramework.Sync
+namespace Szn.Framework.Sync
 {
     public static class SyncConfig
     {

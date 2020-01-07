@@ -1,4 +1,4 @@
-﻿using SznFramework.Editor.SQLite3Creator;
+﻿using Szn.Framework.Editor.SQLite3Creator;
 using UnityEditor;
 using UnityEngine;
 

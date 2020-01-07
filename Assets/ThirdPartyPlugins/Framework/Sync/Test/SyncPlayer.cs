@@ -1,5 +1,5 @@
 ﻿#if UNIT_TEST
-using SznFramework.Sync;
+using Szn.Framework.Sync;
 
 public enum SyncPlayerEnum
 {

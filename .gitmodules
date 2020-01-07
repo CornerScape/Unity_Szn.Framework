@@ -1,0 +1,6 @@
+[submodule "Assets/ThirdPartyPlugins/AudioManager"]
+	path = Assets/ThirdPartyPlugins/AudioManager
+	url = https://github.com/CornerScape/Unity_Audio.git
+[submodule "Assets/ThirdPartyPlugins/UtilPackage"]
+	path = Assets/ThirdPartyPlugins/UtilPackage
+	url = https://github.com/CornerScape/UnityUtilPackage.git

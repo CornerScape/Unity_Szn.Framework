@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SznFramework.Editor.Excel
+namespace Szn.Framework.Editor.Excel
 {
     public class ExcelData
     {

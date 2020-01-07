@@ -5,8 +5,8 @@
  *                                                                                    --szn
  */
 
-using SznFramework.SQLite3Helper;
-using SznFramework.Sync;
+using Szn.Framework.SQLite3Helper;
+using Szn.Framework.Sync;
 
 
 namespace SQLite3TableDataTmp

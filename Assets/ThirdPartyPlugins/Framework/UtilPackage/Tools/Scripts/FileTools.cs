@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace SznFramework.UtilPackage
+namespace Szn.Framework.UtilPackage
 {
     public static class FileTools
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using SznFramework.UtilPackage;
+using Szn.Framework.UtilPackage;
 using UnityEngine;
 
 public class ResourceController : MonoSingleton<ResourceController> 

@@ -1,8 +1,8 @@
-﻿using SznFramework.Editor.ScriptingDefine;
+﻿using Szn.Framework.Editor.ScriptingDefine;
 using UnityEditor;
 using UnityEngine;
 
-namespace SznFramework.Editor.Menu
+namespace Szn.Framework.Editor.Menu
 {
     public enum MenuPriority
     {

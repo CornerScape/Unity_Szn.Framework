@@ -1,5 +1,5 @@
 ﻿
-namespace SznFramework.Editor.ScriptingDefine
+namespace Szn.Framework.Editor.ScriptingDefine
 {
     public static class ScriptingDefineConfig
     {

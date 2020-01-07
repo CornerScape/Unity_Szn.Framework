@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using SznFramework.UtilPackage.Editor;
+using Szn.Framework.UtilPackage.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace SznFramework.Editor.ScriptingDefine
+namespace Szn.Framework.Editor.ScriptingDefine
 {
     public class ScriptingDefineWindow : EditorWindow
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace SznFramework.Sync
+namespace Szn.Framework.Sync
 {
     public class SyncProperty
     {

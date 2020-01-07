@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using SznFramework.UtilPackage;
+using Szn.Framework.UtilPackage;
 using UnityEngine;
 
-namespace SznFramework.Ui
+namespace Szn.Framework.Ui
 {
     public class UiController : MonoSingleton<UiController>
     {

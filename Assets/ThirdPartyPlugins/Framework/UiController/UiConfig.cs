@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SznFramework.Ui
+namespace Szn.Framework.Ui
 {
     public static class UiConfig
     {

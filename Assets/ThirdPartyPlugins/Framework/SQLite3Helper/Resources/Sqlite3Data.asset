@@ -3,20 +3,13 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 057bb2cfe2160194f98d74f941635399, type: 3}
   m_Name: Sqlite3Data
   m_EditorClassIdentifier: 
-  AllData:
-  - Directory: 
-    Name: Static.db
-    LocalName: f2cadf1ff6ffe2a765323b22570c4b90
-    Md5: 03db3d1133f376e6089676a711d6ed6e
-  - Directory: /Db
-    Name: Dynamic.db
-    LocalName: 323b09e12f3982415df023cef7396183
-    Md5: 03db3d1133f376e6089676a711d6ed6e
+  AllData: []

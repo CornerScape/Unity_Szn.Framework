@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SznFramework.SQLite3Helper
+namespace Szn.Framework.SQLite3Helper
 {
     [Flags]
     public enum SQLite3OpenFlags

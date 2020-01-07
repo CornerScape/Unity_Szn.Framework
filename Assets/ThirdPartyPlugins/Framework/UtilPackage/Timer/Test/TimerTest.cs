@@ -1,9 +1,9 @@
 ﻿#if UNIT_TEST
-using SznFramework.UtilPackage;
+using Szn.Framework.UtilPackage;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SznFramework.UnitTest
+namespace Szn.Framework.UnitTest
 {
     public class TimerTest : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using SznFramework.SQLite3Helper;
-using SznFramework.UtilPackage;
+using Szn.Framework.SQLite3Helper;
+using Szn.Framework.UtilPackage;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;

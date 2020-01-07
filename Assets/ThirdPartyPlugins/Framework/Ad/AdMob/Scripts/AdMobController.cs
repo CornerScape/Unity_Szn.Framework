@@ -2,7 +2,7 @@
 using GoogleMobileAds.Api;
 using UnityEngine;
 
-namespace SznFramework.AdMob
+namespace Szn.Framework.AdMob
 {
     public static class AdMobController
     {
