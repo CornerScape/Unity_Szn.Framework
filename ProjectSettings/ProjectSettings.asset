@@ -604,7 +604,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     4: ADS;AD_DEBUG
-    7: 
+    7: UNIT_TEST
   platformArchitecture:
     iPhone: 1
   scriptingBackend:
