@@ -603,11 +603,12 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    4: ADS;AD_DEBUG
+    4: UNIT_TEST
     7: UNIT_TEST
   platformArchitecture:
     iPhone: 1
   scriptingBackend:
+    Android: 1
     iPhone: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
