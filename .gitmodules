@@ -7,3 +7,6 @@
 [submodule "Assets/ThirdPartyPlugins/UIManager"]
 	path = Assets/ThirdPartyPlugins/UIManager
 	url = https://github.com/CornerScape/Unity_UIManager.git
+[submodule "Assets/ThirdPartyPlugins/EventManager"]
+	path = Assets/ThirdPartyPlugins/EventManager
+	url = https://github.com/CornerScape/Unity_EventManager.git
