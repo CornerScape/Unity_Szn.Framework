@@ -4,3 +4,6 @@
 [submodule "Assets/ThirdPartyPlugins/UtilPackage"]
 	path = Assets/ThirdPartyPlugins/UtilPackage
 	url = https://github.com/CornerScape/UnityUtilPackage.git
+[submodule "Assets/ThirdPartyPlugins/UIManager"]
+	path = Assets/ThirdPartyPlugins/UIManager
+	url = https://github.com/CornerScape/Unity_UIManager.git
