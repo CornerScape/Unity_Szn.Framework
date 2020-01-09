@@ -10,3 +10,6 @@
 [submodule "Assets/ThirdPartyPlugins/EventManager"]
 	path = Assets/ThirdPartyPlugins/EventManager
 	url = https://github.com/CornerScape/Unity_EventManager.git
+[submodule "Assets/ThirdPartyPlugins/SQLite3Helper"]
+	path = Assets/ThirdPartyPlugins/SQLite3Helper
+	url = https://github.com/CornerScape/Unity_SQLite3Helper.git
