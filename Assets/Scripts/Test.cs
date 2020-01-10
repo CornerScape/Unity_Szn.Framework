@@ -54,12 +54,12 @@ public class Test : MonoBehaviour
 
             if (GUILayout.Button("SelfEnable"))
             {
-                uiBase.Handle.SelfEnable();
+                uiBase.Handle.SelfHierarchyEnable();
             }
 
             if (GUILayout.Button("SelfDisable"))
             {
-                uiBase.Handle.SelfDisable();
+                uiBase.Handle.SelfHierarchyDisable();
             }
 
             if (GUILayout.Button("SelfDestroy"))
