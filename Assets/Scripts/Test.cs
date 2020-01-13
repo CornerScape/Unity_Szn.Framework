@@ -42,29 +42,54 @@ public class Test : MonoBehaviour
 //                AudioManager.Instance.PlayEffect(AudioKey.Bird05);
 //            }
 
-            if (GUILayout.Button("SelfStart"))
+            if (GUILayout.Button("open A"))
             {
-                uiBase.Handle.SelfLoaded();
+                UIManager.Instance.OpenUI(UIKey.A);
             }
 
-            if (GUILayout.Button("SelfOpen"))
+            if (GUILayout.Button("close A"))
             {
-                uiBase.Handle.SelfOpen();
+                UIManager.Instance.CloseUI(UIKey.A);
             }
 
-            if (GUILayout.Button("SelfEnable"))
+            if (GUILayout.Button("open B"))
             {
-                uiBase.Handle.SelfHierarchyEnable();
+                UIManager.Instance.OpenUI(UIKey.B);
             }
 
-            if (GUILayout.Button("SelfDisable"))
+            if (GUILayout.Button("close B"))
             {
-                uiBase.Handle.SelfHierarchyDisable();
+                UIManager.Instance.CloseUI(UIKey.B);
             }
 
-            if (GUILayout.Button("SelfDestroy"))
+            if (GUILayout.Button("open C"))
             {
-                uiBase.Handle.SelfDestroy();
+                UIManager.Instance.OpenUI(UIKey.C);
+            }
+
+            if (GUILayout.Button("close C"))
+            {
+                UIManager.Instance.CloseUI(UIKey.C);
+            }
+
+            if (GUILayout.Button("open D"))
+            {
+                UIManager.Instance.OpenUI(UIKey.D);
+            }
+
+            if (GUILayout.Button("close D"))
+            {
+                UIManager.Instance.CloseUI(UIKey.D);
+            }
+
+            if (GUILayout.Button("open E"))
+            {
+                UIManager.Instance.OpenUI(UIKey.E);
+            }
+
+            if (GUILayout.Button("close E"))
+            {
+                UIManager.Instance.CloseUI(UIKey.E);
             }
         };
     }
