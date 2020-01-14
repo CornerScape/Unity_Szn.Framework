@@ -13,3 +13,6 @@
 [submodule "Assets/ThirdPartyPlugins/SQLite3Helper"]
 	path = Assets/ThirdPartyPlugins/SQLite3Helper
 	url = https://github.com/CornerScape/Unity_SQLite3Helper.git
+[submodule "Assets/ThirdPartyPlugins/Log"]
+	path = Assets/ThirdPartyPlugins/Log
+	url = https://github.com/CornerScape/Unity_CustomLog.git
